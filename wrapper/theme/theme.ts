@@ -1,7 +1,7 @@
 'use client';
 import { createTheme } from '@mui/material/styles';
 import { Quicksand } from 'next/font/google';
-import { colors } from './palatte';
+import { MUI_CUSTOM_COLORS } from './palatte';
 
 export const quicksand = Quicksand({
     subsets: ['latin'],
@@ -13,8 +13,12 @@ export const quicksand = Quicksand({
 const theme = createTheme({
     palette: {
         primary: {
-            main: colors.primary.main
-        }
+            main: MUI_CUSTOM_COLORS.primary.main
+        },
+        secondary: {
+            main: MUI_CUSTOM_COLORS.secondary.main
+        },
+        mode: 'dark',
     },
     typography: {
         fontFamily: quicksand.style.fontFamily
@@ -24,16 +28,16 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     textTransform: 'none',
-                    borderRadius: '12px',
+                    borderRadius: '8px',
                     minWidth: 'max-content',
-                    height: '38px'
+                    height: '40px'
                 },
             },
         },
         MuiSkeleton: {
             styleOverrides: {
                 root: {
-                    backgroundColor: colors.skeleton.main,
+                    backgroundColor: MUI_CUSTOM_COLORS.skeleton.main,
                 },
             },
         },

@@ -1,12 +1,10 @@
-export const colors = {
+export const MUI_CUSTOM_COLORS = {
     primary: {
-        main: "#3457D5"
+        main: "#4255ff",
     },
-    background: {
-        main: '#FAFAFA'
-    },
-    text: {
-        main: '#1D1D1D'
+    secondary: {
+        main: "#202040",
+
     },
     skeleton: {
         main: '#252525'
