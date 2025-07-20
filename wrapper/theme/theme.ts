@@ -37,7 +37,6 @@ const theme = createTheme({
         MuiSkeleton: {
             styleOverrides: {
                 root: {
-                    backgroundColor: MUI_CUSTOM_COLORS.skeleton.main,
                 },
             },
         },
