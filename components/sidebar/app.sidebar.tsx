@@ -6,14 +6,20 @@ import { Box, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import SidebarListItem from './sidebar.list.item';
 import { useSidebarCollapse } from '@/wrapper/sidebar-collapse/sidebar.collapse.wrapper';
-
+import ImportContactsOutlinedIcon from '@mui/icons-material/ImportContactsOutlined';
+import TranslateOutlinedIcon from '@mui/icons-material/TranslateOutlined';
+import AbcOutlinedIcon from '@mui/icons-material/AbcOutlined';
 const AppSidebar = () => {
     const { isCollapse } = useSidebarCollapse();
 
     const sidebarElements: ISidebarElement[] = [
         { id: 1, name: 'Trang chủ', icon: <HomeIcon />, link: '/home' },
-        { id: 2, name: 'Thư viện của bạn', icon: <FolderOpenedIcon />, link: '/library' },
-        { id: 3, name: 'Thông báo', icon: <NotificationsNoneOutlinedIcon className='text-gray-600-gray-400' />, link: '/notification', hasBadge: true },
+        { id: 2, name: 'Học phần', icon: <FolderOpenedIcon />, link: '/course' },
+        { id: 3, name: 'Sách', icon: <ImportContactsOutlinedIcon />, link: '/book' },
+        { id: 4, name: 'Từ vựng', icon: <TranslateOutlinedIcon />, link: '/vocabulary' },
+        { id: 5, name: 'Bảng chữ cái', icon: <AbcOutlinedIcon />, link: '/alphabet' },
+
+
     ];
 
     return (

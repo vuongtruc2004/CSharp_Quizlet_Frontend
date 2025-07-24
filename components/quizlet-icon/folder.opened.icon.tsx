@@ -1,4 +1,4 @@
-const FolderOpenedIcon = ({ size, fill }: { size?: number, fill?: string }) => {
+const FolderOpenedIcon = ({ size }: { size?: number }) => {
     return (
         <svg
             viewBox="0 0 24 24"
@@ -6,7 +6,7 @@ const FolderOpenedIcon = ({ size, fill }: { size?: number, fill?: string }) => {
             xmlns="http://www.w3.org/2000/svg"
             width={size || 24}
             height={size || 24}
-            fill={fill || "var(--color-gray-600-gray-400)"}
+            fill='currentColor'
         >
             <path
                 fillRule="evenodd"
