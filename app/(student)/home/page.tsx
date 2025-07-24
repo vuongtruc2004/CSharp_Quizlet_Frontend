@@ -8,7 +8,7 @@ const HomePage = () => {
     return (
         <div className="text-[10rem] uppercase flex items-center justify-center">
             <ul>
-                <li>Một Hai</li>
+                <li>Một</li>
                 <li>Một</li>
                 <li>Một</li>
                 <li>Một</li>
