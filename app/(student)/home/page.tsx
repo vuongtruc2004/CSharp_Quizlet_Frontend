@@ -27,7 +27,6 @@ const HomePage = () => {
                 <li>Một</li>
                 <li>Một</li>
                 <li>Một</li>
-                <li>Một</li>
             </ul>
         </div>
     )
