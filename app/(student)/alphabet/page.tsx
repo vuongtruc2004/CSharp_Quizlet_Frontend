@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 
 const AlphabetPage = () => {
     return (
-        <div>AlphabetPage</div>
+        <div>AlphabetPages</div>
     )
 }
 
