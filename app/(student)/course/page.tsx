@@ -1,3 +1,5 @@
+import CourseList from "@/components/course/ui/course.list"
+import CourseSearchBox from "@/components/course/ui/course.search.box"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -6,7 +8,10 @@ export const metadata: Metadata = {
 
 const CoursePage = () => {
     return (
-        <div>CoursePage</div>
+        <div>
+            <CourseSearchBox />
+            <CourseList />
+        </div>
     )
 }
 
