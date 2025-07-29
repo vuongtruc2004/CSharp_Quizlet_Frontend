@@ -1,17 +1,17 @@
 "use client";
 import { Box } from "@mui/material";
 import React, { useState } from "react";
-import { typeAlphabet } from "./type.alphabet";
+import { typeAlphabet } from "../services/type.alphabet";
 import { useAlphabet } from "@/wrapper/alphabet/alphabet-wrapper";
 import SingleAlphabet from "./single.alphabet";
 
 const AlphabetTab = () => {
   const { setSelectedTab, loading, selectedTab } = useAlphabet();
-  const [content, setContent] = useState();
+  const [content, setContent] = useState<Map<string, number>>(new Map());
   {
-    selectedTab === "HIRAGANA" && {
-      setContent,
-    };
+    // selectedTab === "HIRAGANA" && {
+    //   setContent()
+    // };
   }
   return (
     <div>
