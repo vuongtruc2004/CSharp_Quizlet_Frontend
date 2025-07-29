@@ -2,8 +2,8 @@
 import { useSidebarCollapse } from "@/wrapper/sidebar-collapse/sidebar.collapse.wrapper";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CustomTooltip } from "../mui-custom/custom.tooltip";
 import { Badge } from "@mui/material";
+import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
 
 const SidebarListItem = ({ element }: { element: ISidebarElement }) => {
     const { isCollapse } = useSidebarCollapse();
