@@ -28,7 +28,7 @@ const SearchBox = () => {
                 name="keyword"
                 size="small"
                 fullWidth
-                placeholder="Nhập từ vựng mà bạn muốn tìm"
+                placeholder="Tìm kiếm bất cứ thứ gì"
                 slotProps={{
                     input: {
                         startAdornment: (

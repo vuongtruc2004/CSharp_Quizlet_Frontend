@@ -1,9 +1,9 @@
 import { Button, Popover } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react";
-import CardIcon from "../quizlet-icon/card.icon";
-import { CustomTooltip } from "../mui-custom/custom.tooltip";
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
+import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
+import CardIcon from "@/components/quizlet-icon/card.icon";
 
 const CreateButtonPopover = () => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
