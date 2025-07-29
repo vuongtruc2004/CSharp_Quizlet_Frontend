@@ -5,8 +5,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Image from "next/image";
 import CreateButtonPopover from "./create.button.popover";
 import SearchBox from "./search.box";
-import { CustomTooltip } from "../mui-custom/custom.tooltip";
 import { useSidebarCollapse } from "@/wrapper/sidebar-collapse/sidebar.collapse.wrapper";
+import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
 
 const AppHeader = () => {
     const { isCollapse, setIsCollapse } = useSidebarCollapse();

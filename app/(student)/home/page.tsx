@@ -25,7 +25,6 @@ const HomePage = () => {
 
     ]
 
-
     return (
         <>
             <HomePageComponent items={items} books={books} />
