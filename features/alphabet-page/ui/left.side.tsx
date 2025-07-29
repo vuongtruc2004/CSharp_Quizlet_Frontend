@@ -26,7 +26,16 @@ const LeftSide = ({
       >
         {voicedMap &&
           Array.from(notVoicedMap!.entries()).flatMap(([key, value], index) => {
-            const indentChars = ["ゆ", "よ", "を", "ん"];
+            const indentChars = [
+              "ゆ",
+              "よ",
+              "を",
+              "ん",
+              "ユ",
+              "ヨ",
+              "ヲ",
+              "ン",
+            ];
             const elements = [];
 
             if (indentChars.includes(key)) {
