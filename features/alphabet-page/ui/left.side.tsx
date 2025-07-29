@@ -6,7 +6,8 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import ModalDetail from "./modal.detail";
 
 const LeftSide = ({
   voicedMap,
@@ -17,6 +18,8 @@ const LeftSide = ({
   notVoicedMap?: Map<string, string> | null;
   yoonMap?: Map<string, string> | null;
 }) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [data, setData] = useState<string[]>([]);
   return (
     <Box sx={{ flex: 1 }}>
       <Grid
@@ -66,10 +69,14 @@ const LeftSide = ({
                     border: "2px solid var(--color-gray-100-twilight-500)",
                     color: "black",
                   }}
+                  onClick={() => {
+                    setOpenModal(true);
+                    setData([key, value]);
+                  }}
                 >
                   <CardActionArea>
                     <CardContent>
-                      <Typography align="center" variant="h6">
+                      <Typography align="center" variant="h4">
                         {key}
                       </Typography>
                       <Typography align="center" variant="body2">
@@ -84,6 +91,11 @@ const LeftSide = ({
             return elements;
           })}
       </Grid>
+      <ModalDetail
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        data={data}
+      />
     </Box>
   );
 };

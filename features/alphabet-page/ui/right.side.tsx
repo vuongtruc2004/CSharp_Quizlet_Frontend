@@ -6,7 +6,8 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import ModalDetail from "./modal.detail";
 
 const RightSide = ({
   voicedMap,
@@ -17,6 +18,9 @@ const RightSide = ({
   notVoicedMap?: Map<string, string> | null;
   yoonMap?: Map<string, string> | null;
 }) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [data, setData] = useState<string[]>([]);
+
   return (
     <Box sx={{ flex: 1 }}>
       <Grid
@@ -36,10 +40,14 @@ const RightSide = ({
                   border: "2px solid var(--color-gray-100-twilight-500)",
                   color: "black",
                 }}
+                onClick={() => {
+                  setOpenModal(true);
+                  setData([key, value]);
+                }}
               >
                 <CardActionArea>
                   <CardContent>
-                    <Typography align="center" variant="h6">
+                    <Typography align="center" variant="h4">
                       {key}
                     </Typography>
                     <Typography align="center" variant="body2">
@@ -64,10 +72,14 @@ const RightSide = ({
                     border: "2px solid var(--color-gray-100-twilight-500)",
                     color: "black",
                   }}
+                  onClick={() => {
+                    setOpenModal(true);
+                    setData([key, value]);
+                  }}
                 >
                   <CardActionArea>
                     <CardContent>
-                      <Typography align="center" variant="h6">
+                      <Typography align="center" variant="h4">
                         {key}
                       </Typography>
                       <Typography align="center" variant="body2">
@@ -80,6 +92,11 @@ const RightSide = ({
             ))}
         </Grid>
       </Grid>
+      <ModalDetail
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        data={data}
+      />
     </Box>
   );
 };
