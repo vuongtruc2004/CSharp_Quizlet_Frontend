@@ -1,18 +1,51 @@
 "use client";
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { typeAlphabet } from "../services/type.alphabet";
 import { useAlphabet } from "@/wrapper/alphabet/alphabet-wrapper";
 import SingleAlphabet from "./single.alphabet";
+import {
+  hiraganaNotVoicedSet,
+  hiraganaVoicedSet,
+  hiraganaYoonMap,
+  katakanaNotVoicedMap,
+  katakanaVoicedMap,
+  katakanaYoonMap,
+} from "../services/set.alphabet";
 
 const AlphabetTab = () => {
   const { setSelectedTab, loading, selectedTab } = useAlphabet();
-  const [content, setContent] = useState<Map<string, number>>(new Map());
-  {
-    // selectedTab === "HIRAGANA" && {
-    //   setContent()
-    // };
-  }
+  const [voicedMap, setVoicedMap] = useState<Map<string, string> | null>();
+  const [notVoicedMap, setNotVoicedMap] = useState<Map<
+    string,
+    string
+  > | null>();
+  const [yoonMap, setYoonMap] = useState<Map<string, string> | null>();
+
+  useEffect(() => {
+    switch (selectedTab) {
+      case "HIRAGANA":
+        setNotVoicedMap(hiraganaNotVoicedSet);
+        setVoicedMap(hiraganaVoicedSet);
+        setYoonMap(hiraganaYoonMap);
+        break;
+      case "KATAKANA":
+        setNotVoicedMap(katakanaNotVoicedMap);
+        setVoicedMap(katakanaVoicedMap);
+        setYoonMap(katakanaYoonMap);
+        break;
+      case "KANJI":
+        setNotVoicedMap(null);
+        setVoicedMap(null);
+        setYoonMap(null);
+        break;
+      default:
+        setNotVoicedMap(null);
+        setVoicedMap(null);
+        setYoonMap(null);
+    }
+  }, [selectedTab]);
+
   return (
     <div>
       <Box
@@ -68,8 +101,15 @@ const AlphabetTab = () => {
           );
         })}
       </Box>
-      <div className=" bg-white " style={{ height: "1000px" }}>
-        <SingleAlphabet />
+      <div
+        className=" bg-white "
+        style={{ height: "auto", paddingBottom: "50px" }}
+      >
+        <SingleAlphabet
+          voicedMap={voicedMap}
+          notVoicedMap={notVoicedMap}
+          yoonMap={yoonMap}
+        />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-const hiraganaNotVoicedSet: Set<[string, string]> = new Set([
+const hiraganaNotVoicedSet = new Map<string, string>([
   ["あ", "a"],
   ["い", "i"],
   ["う", "u"],
@@ -47,7 +47,7 @@ const hiraganaNotVoicedSet: Set<[string, string]> = new Set([
   ["ん", "n"],
 ]);
 
-const hiraganaVoicedSet: Set<[string, string]> = new Set([
+const hiraganaVoicedSet = new Map<string, string>([
   ["が", "ga"],
   ["ぎ", "gi"],
   ["ぐ", "gu"],

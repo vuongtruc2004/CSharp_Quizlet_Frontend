@@ -1,22 +1,17 @@
-import {
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-  Grid,
-} from "@mui/material";
+import { Box } from "@mui/material";
+import LeftSide from "./left.side";
+import RightSide from "./right.side";
 
-const cardsLeft = [...Array(10)].map((_, i) => ({
-  title: `A${i + 1}`,
-  description: `Left ${i + 1}`,
-}));
-const cardsRight = [...Array(10)].map((_, i) => ({
-  title: `B${i + 1}`,
-  description: `Right ${i + 1}`,
-}));
-
-const SingleAlphabet = () => {
+const SingleAlphabet = ({
+  voicedMap,
+  notVoicedMap,
+  yoonMap,
+}: {
+  voicedMap?: Map<string, string> | null;
+  notVoicedMap?: Map<string, string> | null;
+  yoonMap?: Map<string, string> | null;
+}) => {
+  const indentChars = ["ゆ", "よ", "わ", "を", "ん"];
   return (
     <Box
       sx={{
@@ -28,64 +23,17 @@ const SingleAlphabet = () => {
       }}
     >
       {/* Bên trái */}
-      <Box sx={{ flex: 1 }}>
-        <Grid container spacing={2}>
-          {cardsLeft.map((card, index) => (
-            //@ts-ignore
-            <Grid item xs={2.4} key={index}>
-              <Card
-                sx={{
-                  aspectRatio: "1 / 1",
-                  backgroundColor: "white",
-                  border: "2px solid var(--color-gray-100-twilight-500)",
-                  color: "black",
-                }}
-              >
-                <CardActionArea>
-                  <CardContent>
-                    <Typography align="center" variant="h6">
-                      {card.title}
-                    </Typography>
-                    <Typography align="center" variant="body2">
-                      {card.description}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-
-      {/* Bên phải */}
-      <Box sx={{ flex: 1 }}>
-        <Grid container spacing={2}>
-          {cardsRight.map((card, index) => (
-            //@ts-ignore
-            <Grid item xs={2.4} key={index}>
-              <Card
-                sx={{
-                  aspectRatio: "1 / 1",
-                  backgroundColor: "white",
-                  border: "2px solid var(--color-gray-100-twilight-500)",
-                  color: "black",
-                }}
-              >
-                <CardActionArea>
-                  <CardContent>
-                    <Typography align="center" variant="h6">
-                      {card.title}
-                    </Typography>
-                    <Typography align="center" variant="body2">
-                      {card.description}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+      <LeftSide
+        voicedMap={voicedMap}
+        notVoicedMap={notVoicedMap}
+        yoonMap={yoonMap}
+      />
+      {/* Bên phai */}
+      <RightSide
+        voicedMap={voicedMap}
+        notVoicedMap={notVoicedMap}
+        yoonMap={yoonMap}
+      />
     </Box>
   );
 };
