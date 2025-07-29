@@ -1,9 +1,9 @@
 'use client';
 import { Box, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import SidebarListItem from './sidebar.list.item';
 import { useSidebarCollapse } from '@/wrapper/sidebar-collapse/sidebar.collapse.wrapper';
-import { SIDEBAR_ELEMENTS } from './sidebar.elements';
+import { SIDEBAR_ELEMENTS } from '../services/sidebar.constants';
+import SidebarListItem from './sidebar.list.item';
 
 const AppSidebar = () => {
     const { isCollapse } = useSidebarCollapse();
