@@ -1,3 +1,5 @@
+import VocabularySearch from "@/components/vocabulary/vocabulary.search"
+import VocabularyTable from "@/components/vocabulary/vocabulary.table"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -6,7 +8,11 @@ export const metadata: Metadata = {
 
 const VocabularyPage = () => {
     return (
-        <div>VocabularyPage</div>
+        <>
+            <VocabularySearch />
+            <VocabularyTable />
+        </>
+
     )
 }
 
