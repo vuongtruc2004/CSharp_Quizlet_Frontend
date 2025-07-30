@@ -2,6 +2,7 @@ import { Box, IconButton, Modal, Typography } from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import { speakText } from "../services/make.sound";
 
 const ModalDetail = ({
   openModal,
@@ -28,7 +29,6 @@ const ModalDetail = ({
           transform: "translate(-50%, -50%)",
         }}
       >
-        {/* Nút X nằm ngoài Box trắng */}
         <IconButton
           onClick={handleClose}
           sx={{
@@ -50,7 +50,6 @@ const ModalDetail = ({
           <CloseIcon fontSize="small" />
         </IconButton>
 
-        {/* Box trắng */}
         <Box
           sx={{
             width: 500,
@@ -90,6 +89,7 @@ const ModalDetail = ({
             <Typography sx={{ fontSize: "30px" }}> {data[1]}</Typography>
 
             <Typography
+              onClick={() => speakText(data[0])}
               sx={{
                 fontSize: "30px",
                 position: "absolute",
