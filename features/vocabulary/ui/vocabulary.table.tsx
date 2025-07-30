@@ -4,14 +4,14 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import StarBorderPurple500OutlinedIcon from '@mui/icons-material/StarBorderPurple500Outlined';
+import { IVocabulary } from '../services/vocabulary.table';
+
+interface IProps {
+    vocabularies: IVocabulary[],
+}
 
 
-const VocabularyTable = () => {
-    const rows = [
-        { id: 1, kanji: 'Hello', japanese: 'A greeting', meaning: 'Hello, how are you?' },
-        { id: 2, kanji: 'World', japanese: 'The earth and all its inhabitants', meaning: 'The world is beautiful.' },
-        // Add more rows as needed
-    ];
+const VocabularyTable = (props: IProps) => {
     return (
         <>
             <Box sx={{ width: '100%', overflow: 'hidden', marginTop: '10rem', paddingRight: '20px' }}>
@@ -27,7 +27,7 @@ const VocabularyTable = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
+                            {props.vocabularies.map((row) => (
                                 <TableRow key={row.id}>
                                     <TableCell sx={{ textAlign: 'center' }}>{row.id}</TableCell>
                                     <TableCell sx={{ textAlign: 'center' }}>{row.kanji}</TableCell>
