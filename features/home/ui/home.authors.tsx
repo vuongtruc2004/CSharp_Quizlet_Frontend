@@ -6,7 +6,7 @@ import HomeAuthorElement from './home.author.element'
 
 const HomeAuthors = ({ authors }: { authors: IAuthor[] }) => {
     return (
-        <div className='w-[1200px] mb-10'>
+        <div className='w-full mb-10'>
             <p className='font-medium mt-10 mb-3 text-gray-600-gray-400 pl-4.5'>Tác giả hàng đầu</p>
 
             <Swiper

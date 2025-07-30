@@ -14,15 +14,13 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-
-
 const HomeBooks = ({ books }: { books: IBook[] }) => {
     return (
-        <div className='w-[1200px]  '>
+        <div className='w-full'>
             <p className='font-semibold mt-10 mb-3 text-gray-600-gray-400 pl-4.5'>Sách giáo khoa phổ biến</p>
 
             <Swiper
-                slidesPerView={4}
+                slidesPerView={3}
                 spaceBetween={30}
                 navigation={true} modules={[Navigation]} className="mySwiper w-[1200px]"
             >
