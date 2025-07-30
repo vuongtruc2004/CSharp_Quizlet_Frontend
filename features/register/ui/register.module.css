@@ -1,0 +1,123 @@
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.left {
+    flex: 1;
+    background: #a06a1a; /* màu nâu như ảnh mẫu */
+    height: 100vh;
+    padding: 0;
+    display: flex;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* hoặc object-fit: cover nếu muốn ảnh phủ kín */
+    display: block;
+}
+.right {
+    flex: 1;
+    background: #16223a; /* màu xanh đậm */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.formBox {
+    background: #222;
+    padding: 32px 40px;
+    border-radius: 18px;
+    min-width: 400px;
+    color: #fff;
+    box-shadow: 0 0 32px #0008;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 18px;
+    background: #fff;
+    color: #222;
+    font-size: 16px;
+}
+
+.button {
+    width: 100%;
+    padding: 12px;
+    background: #1956a3;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tabGroup {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.tab, .tabActive {
+    flex: 1;
+    background: #222;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.tabActive {
+    background: #1956a3;
+}
+
+.socialGroup {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    margin-top: 12px;
+}
+
+.google {
+    flex: 1;
+    background: #d32f2f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.facebook {
+    flex: 1;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.backHome {
+    color: #90caf9;
+    text-decoration: underline;
+    display: block;
+    text-align: center;
+    margin-top: 8px;
+    font-size: 15px;
+}
