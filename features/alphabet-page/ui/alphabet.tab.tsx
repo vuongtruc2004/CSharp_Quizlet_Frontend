@@ -12,6 +12,8 @@ import {
   katakanaVoicedMap,
   katakanaYoonMap,
 } from "../services/set.alphabet";
+import KanjiPage from "./kaji";
+import { kanjiList } from "../services/kanji.data";
 
 const AlphabetTab = () => {
   const { setSelectedTab, loading, selectedTab } = useAlphabet();
@@ -21,7 +23,9 @@ const AlphabetTab = () => {
     string
   > | null>();
   const [yoonMap, setYoonMap] = useState<Map<string, string> | null>();
-
+  const [kanjiData, setKanjiData] = useState<
+    { kanji: string; meaning: string; reading: string }[]
+  >([]);
   useEffect(() => {
     switch (selectedTab) {
       case "HIRAGANA":
@@ -35,9 +39,7 @@ const AlphabetTab = () => {
         setYoonMap(katakanaYoonMap);
         break;
       case "KANJI":
-        setNotVoicedMap(null);
-        setVoicedMap(null);
-        setYoonMap(null);
+        setKanjiData(kanjiList);
         break;
       default:
         setNotVoicedMap(null);
@@ -105,11 +107,15 @@ const AlphabetTab = () => {
         className=" bg-white "
         style={{ height: "auto", paddingBottom: "50px" }}
       >
-        <SingleAlphabet
-          voicedMap={voicedMap}
-          notVoicedMap={notVoicedMap}
-          yoonMap={yoonMap}
-        />
+        {selectedTab === "KANJI" ? (
+          <KanjiPage kanjiData={kanjiData} />
+        ) : (
+          <SingleAlphabet
+            voicedMap={voicedMap}
+            notVoicedMap={notVoicedMap}
+            yoonMap={yoonMap}
+          />
+        )}
       </div>
     </div>
   );

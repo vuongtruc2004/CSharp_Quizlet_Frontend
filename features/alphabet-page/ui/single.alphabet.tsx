@@ -22,13 +22,11 @@ const SingleAlphabet = ({
         paddingTop: "40px",
       }}
     >
-      {/* Bên trái */}
       <LeftSide
         voicedMap={voicedMap}
         notVoicedMap={notVoicedMap}
         yoonMap={yoonMap}
       />
-      {/* Bên phai */}
       <RightSide
         voicedMap={voicedMap}
         notVoicedMap={notVoicedMap}

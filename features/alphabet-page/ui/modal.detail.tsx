@@ -3,15 +3,16 @@ import React, { Dispatch, SetStateAction } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { speakText } from "../services/make.sound";
+import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 
-const ModalDetail = ({
+const ModalDetail = <T extends string[] | KanjiItem>({
   openModal,
   setOpenModal,
   data,
 }: {
   openModal: boolean;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
-  data: string[];
+  data: T;
 }) => {
   const handleClose = () => setOpenModal(false);
   return (
@@ -73,7 +74,7 @@ const ModalDetail = ({
             }}
           >
             <Typography sx={{ fontSize: "220px", fontWeight: "bold" }}>
-              {data[0]}
+              {Array.isArray(data) ? data[0] : data.kanji}
             </Typography>
           </Box>
 
@@ -86,10 +87,21 @@ const ModalDetail = ({
               position: "relative",
             }}
           >
-            <Typography sx={{ fontSize: "30px" }}> {data[1]}</Typography>
+            <Typography sx={{ fontSize: "30px" }}>
+              {Array.isArray(data) ? data[1] : data.meaning}
+              <SettingsEthernetIcon
+                sx={{
+                  color: "var(--color-gray-100-twilight-500)",
+                  margin: "10px",
+                }}
+              />
+              {Array.isArray(data) ? null : data.reading}
+            </Typography>
 
             <Typography
-              onClick={() => speakText(data[0])}
+              onClick={() =>
+                speakText(Array.isArray(data) ? data[0] : data.reading)
+              }
               sx={{
                 fontSize: "30px",
                 position: "absolute",
