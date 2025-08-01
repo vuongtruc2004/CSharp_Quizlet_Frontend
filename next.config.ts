@@ -14,18 +14,19 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [
-      // {
-      //   protocol: 'http',
-      //   hostname: 'localhost',
-      //   port: '8386',
-      //   pathname: '/storage/**',
-      // },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8386',
+        pathname: '/storage/**',
+      },
       // {
       //   protocol: 'http',
       //   hostname: 'springboot-backend',
       //   port: '8386',
       // }
-    ]
+    ],
+    domains: ['assets.quizlet.com'],
   }
 };
 

@@ -9,7 +9,7 @@ const StudentLayout = ({ children }: { children: React.ReactNode }) => {
                 <AppHeader />
                 <div className="flex">
                     <AppSidebar />
-                    <div className="flex-1 p-4.5">
+                    <div className="flex-1 py-4 pl-4 pr-8 w-full overflow-x-hidden">
                         {children}
                     </div>
                 </div>

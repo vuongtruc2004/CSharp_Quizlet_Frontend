@@ -1,37 +1,39 @@
 'use client'
-import React, { useRef, useState } from 'react';
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
 import HomeBookElement from './home.book.element';
-
-import { Navigation } from 'swiper/modules';
-
-// Import Swiper styles
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useRef } from 'react';
+import NavigationButtons from '@/components/swiper-js/navigation.buttons';
+import { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
-import 'swiper/css/navigation';
 
 const HomeBooks = ({ books }: { books: IBook[] }) => {
-    return (
-        <div className='w-full'>
-            <p className='font-semibold mt-10 mb-3 text-gray-600-gray-400 pl-4.5'>Sách giáo khoa phổ biến</p>
+    const sliderRef = useRef<SwiperType>(null);
 
-            <Swiper
-                slidesPerView={3}
-                spaceBetween={30}
-                navigation={true} modules={[Navigation]} className="mySwiper w-[1200px]"
-            >
-                {books.map(book => {
-                    return (
-                        <SwiperSlide key={book.id}>
-                            <HomeBookElement book={book} />
-                        </SwiperSlide>
-                    )
-                })}
-            </Swiper>
+    return (
+        <div className='pl-4.5'>
+            <p className='font-semibold mt-3 mb-7 text-gray-600-gray-400'>Sách giáo khoa phổ biến</p>
+
+            <div className='relative group/parent'>
+                <Swiper
+                    style={{ width: '100%' }}
+                    slidesPerView={3}
+                    spaceBetween={30}
+                    navigation={true}
+                    loop={true}
+                    onBeforeInit={(swiper) => {
+                        sliderRef.current = swiper;
+                    }}
+                >
+                    {books.map(book => {
+                        return (
+                            <SwiperSlide key={book.id}>
+                                <HomeBookElement book={book} />
+                            </SwiperSlide>
+                        )
+                    })}
+                </Swiper>
+                <NavigationButtons sliderRef={sliderRef} />
+            </div>
         </div>
     )
 }
