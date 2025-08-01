@@ -3,6 +3,7 @@ import "./globals.css";
 import ThemeWrapper from "@/wrapper/theme/theme.wrapper";
 import { quicksand } from "@/wrapper/theme/theme";
 import ProgressBarWrapper from "@/wrapper/progress-bar/progress.bar.wrapper";
+import { AlphabetWrapper } from "@/wrapper/alphabet/alphabet-wrapper";
 
 export default function RootLayout({
   children,
@@ -15,7 +16,9 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ProgressBarWrapper>
             <ThemeWrapper>
-              {children}
+              <AlphabetWrapper>
+                {children}
+              </AlphabetWrapper>
             </ThemeWrapper>
           </ProgressBarWrapper>
         </AppRouterCacheProvider>
