@@ -1,7 +1,6 @@
 'use client';
 import { createTheme } from '@mui/material/styles';
 import { Quicksand } from 'next/font/google';
-import { MUI_CUSTOM_COLORS } from './palatte';
 
 export const quicksand = Quicksand({
     subsets: ['latin'],
@@ -13,10 +12,13 @@ export const quicksand = Quicksand({
 const theme = createTheme({
     palette: {
         primary: {
-            main: MUI_CUSTOM_COLORS.primary.main
+            main: "#4255ff"
         },
         secondary: {
-            main: MUI_CUSTOM_COLORS.secondary.main
+            main: "#202040"
+        },
+        third: {
+            main: "#f6f7fb"
         },
         mode: 'dark',
     },

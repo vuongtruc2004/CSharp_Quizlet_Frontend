@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import BookSearch from "@/components/book/book.search";
-import BookList from "@/components/book/book.list";
+import BookSearch from "@/features/book/book.search";
+import BookList from "@/features/book/book.list";
 
 export const metadata: Metadata = {
     title: "Sách",
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function BookPage() {
     return (
-        <div className="p-6">
+        <div className="pl-4.5">
             <BookSearch />
             <BookList />
         </div>

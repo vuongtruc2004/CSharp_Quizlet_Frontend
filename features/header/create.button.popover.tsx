@@ -46,7 +46,7 @@ const CreateButtonPopover = () => {
                     <p className="font-semibold text-sm">Học phần</p>
                 </div>
                 <div className="flex items-center gap-x-5 w-[200px] px-6 py-3 transition-all duration-200 hover:bg-gray-200-gray-700 rounded-md cursor-pointer">
-                    <FolderOutlinedIcon className="text-gray-600-gray-400" />
+                    <FolderOutlinedIcon className="text-gray-800-gray-400" />
                     <p className="font-semibold text-sm">Thư mục</p>
                 </div>
             </Popover>
