@@ -46,7 +46,6 @@ const CourseSort = () => {
                                 border: '1px solid var(--color-gray-400-gray-600)',
                                 backgroundImage: 'none',
                                 borderRadius: '8px',
-                                top: '220px !important'
                             }
                         }
                     }

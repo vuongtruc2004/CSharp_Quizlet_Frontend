@@ -4,6 +4,7 @@ import { useState } from "react";
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
 import CardIcon from "@/components/quizlet-icon/card.icon";
+import Link from "next/link";
 
 const CreateButtonPopover = () => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -41,10 +42,11 @@ const CreateButtonPopover = () => {
                     },
                 }}
             >
-                <div className="flex items-center gap-x-5 w-[200px] px-6 py-3 transition-all duration-200 hover:bg-gray-200-gray-700 rounded-md cursor-pointer">
+                <Link href={"/create-course"} className="flex items-center gap-x-5 w-[200px] px-6 py-3 transition-all duration-200 hover:bg-gray-200-gray-700 rounded-md cursor-pointer">
                     <CardIcon />
                     <p className="font-semibold text-sm">Học phần</p>
-                </div>
+                </Link>
+
                 <div className="flex items-center gap-x-5 w-[200px] px-6 py-3 transition-all duration-200 hover:bg-gray-200-gray-700 rounded-md cursor-pointer">
                     <FolderOutlinedIcon className="text-gray-800-gray-400" />
                     <p className="font-semibold text-sm">Thư mục</p>

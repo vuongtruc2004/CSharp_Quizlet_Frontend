@@ -8,8 +8,8 @@ interface ISidebarCollapseWrapperProps {
 
 const SidebarCollapseContext = createContext<ISidebarCollapseWrapperProps | undefined>(undefined);
 
-export const SidebarCollapseWrapper = ({ children }: { children: React.ReactNode }) => {
-    const [isCollapse, setIsCollapse] = useState<boolean>(false);
+export const SidebarCollapseWrapper = ({ children, initialState }: { children: React.ReactNode, initialState: boolean }) => {
+    const [isCollapse, setIsCollapse] = useState<boolean>(initialState);
 
     return (
         <SidebarCollapseContext.Provider value={{ isCollapse, setIsCollapse }}>
