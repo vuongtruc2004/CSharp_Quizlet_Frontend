@@ -13,8 +13,7 @@ const KanjiPage = ({
         container
         spacing={2}
         sx={{
-          width: "65vw",
-          margin: "0 auto",
+          width: "full",
           paddingTop: "40px",
         }}
       >

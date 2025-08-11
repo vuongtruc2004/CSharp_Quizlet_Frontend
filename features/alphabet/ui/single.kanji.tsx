@@ -27,9 +27,8 @@ const SingleKanjiPage = ({
           sx={{
             minHeight: 70,
             minWidth: 70,
-            backgroundColor: "white",
-            border: "2px solid var(--color-gray-100-twilight-500)",
-            color: "black",
+            backgroundColor: "var(--color-indigo-500-twilight-700)",
+            color: "var(--color-gray-800-gray-200)",
           }}
           onClick={() => {
             setOpenModal(true);

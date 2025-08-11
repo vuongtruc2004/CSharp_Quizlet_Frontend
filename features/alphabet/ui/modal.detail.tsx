@@ -51,23 +51,9 @@ const ModalDetail = <T extends string[] | KanjiItem>({
           <CloseIcon fontSize="small" />
         </IconButton>
 
-        <Box
-          sx={{
-            width: 500,
-            height: 400,
-            border: "2px solid var(--color-gray-100-twilight-500)",
-            backgroundColor: "var(--color-gray-800-gray-200)",
-            color: "black",
-            boxShadow: 24,
-            p: 2,
-            borderRadius: 2,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <div className="w-[500px] border-2 border-gray-100-twilight-500 p-2 rounded-lg flex flex-col shadow-md bg-gray-800-gray-200 text-black">
           <Box
             sx={{
-              flex: 3,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -82,20 +68,25 @@ const ModalDetail = <T extends string[] | KanjiItem>({
             sx={{
               flex: 1,
               display: "flex",
-              alignItems: "center",
+              alignItems: "end",
               justifyContent: "center",
               position: "relative",
             }}
           >
-            <Typography sx={{ fontSize: "30px" }}>
-              {Array.isArray(data) ? data[1] : data.meaning}
-              <SettingsEthernetIcon
-                sx={{
-                  color: "var(--color-gray-100-twilight-500)",
-                  margin: "10px",
-                }}
-              />
-              {Array.isArray(data) ? null : data.reading}
+            <Typography
+              sx={{
+                fontSize: "30px",
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center",
+              }}
+            >
+              <span className="text-lg">
+                {Array.isArray(data) ? data[1] : data.meaning}
+              </span>
+              <span className="text-2lg font-bold">
+                {Array.isArray(data) ? null : data.reading}
+              </span>
             </Typography>
 
             <Typography
@@ -125,7 +116,7 @@ const ModalDetail = <T extends string[] | KanjiItem>({
               />
             </Typography>
           </Box>
-        </Box>
+        </div>
       </Box>
     </Modal>
   );
