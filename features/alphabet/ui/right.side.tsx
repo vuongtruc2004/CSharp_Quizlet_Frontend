@@ -25,7 +25,7 @@ const RightSide = ({
     <Box sx={{ flex: 1 }}>
       <Grid
         container
-        spacing={2}
+        spacing={3}
         sx={{ display: "flex", justifyContent: "center" }}
       >
         {voicedMap &&
@@ -34,11 +34,10 @@ const RightSide = ({
             <Grid item xs={2} key={index}>
               <Card
                 sx={{
-                  minHeight: 70,
-                  minWidth: 70,
-                  backgroundColor: "white",
-                  border: "2px solid var(--color-gray-100-twilight-500)",
-                  color: "black",
+                  minHeight: 90,
+                  minWidth: 90,
+                  backgroundColor: "var(--color-indigo-500-twilight-700)",
+                  color: "var(--color-gray-800-gray-200)",
                 }}
                 onClick={() => {
                   setOpenModal(true);
@@ -67,10 +66,9 @@ const RightSide = ({
                 <Card
                   sx={{
                     minHeight: 80,
-                    minWidth: 128,
-                    backgroundColor: "white",
-                    border: "2px solid var(--color-gray-100-twilight-500)",
-                    color: "black",
+                    minWidth: 125,
+                    backgroundColor: "var(--color-indigo-500-twilight-700)",
+                    color: "var(--color-gray-800-gray-200)",
                   }}
                   onClick={() => {
                     setOpenModal(true);

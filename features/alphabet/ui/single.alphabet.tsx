@@ -15,8 +15,7 @@ const SingleAlphabet = ({
   return (
     <Box
       sx={{
-        width: "65vw",
-        margin: "0 auto",
+        width: "full",
         display: "flex",
         justifyContent: "space-between",
         paddingTop: "40px",
