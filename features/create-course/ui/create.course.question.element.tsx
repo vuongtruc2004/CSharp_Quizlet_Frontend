@@ -1,14 +1,20 @@
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import DragHandleOutlinedIcon from '@mui/icons-material/DragHandleOutlined';
 import { TextField } from '@mui/material';
-import { useSortable } from "@dnd-kit/sortable"
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities"
 
-const CreateCourseQuestionElement = ({ id, index }: { id: number, index: number }) => {
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+const CreateCourseQuestionElement = ({ question, index }: { question: IQuestion, index: number }) => {
+    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: question.id });
+
+    const style = {
+        transition,
+        transform: CSS.Transform.toString(transform),
+    }
 
     return (
-        <div className='bg-gray-100-gray-700 rounded-lg cursor-move group'>
-            <div className='flex items-center justify-between p-3 border-b-2 border-gray-200-gray-900'>
+        <div ref={setNodeRef} {...attributes} style={style} className='bg-gray-100-gray-700 rounded-lg'>
+            <div {...listeners} className='flex items-center justify-between p-3 border-b-2 border-gray-200-gray-900 group cursor-move'>
                 <h2 className='font-semibold w-10 flex items-center justify-center'>{index}</h2>
                 <div className='flex items-center gap-x-3 text-gray-400-gray-600'>
                     <DragHandleOutlinedIcon sx={{ fontSize: '1.5rem' }} className='group-hover:text-gray-800-gray-200 transition-all duration-200' />
@@ -20,6 +26,8 @@ const CreateCourseQuestionElement = ({ id, index }: { id: number, index: number 
 
             <form action="" className='grid grid-cols-2 gap-x-5 p-6'>
                 <TextField
+                    value={question.terminology}
+                    multiline
                     variant="standard"
                     helperText={<span className='text-gray-800-gray-400 font-bold text-[12px]'>THUẬT NGỮ</span>}
                     slotProps={{
@@ -31,6 +39,8 @@ const CreateCourseQuestionElement = ({ id, index }: { id: number, index: number 
                     }}
                 />
                 <TextField
+                    value={question.define}
+                    multiline
                     variant="standard"
                     helperText={<span className='text-gray-800-gray-400 font-bold text-[12px]'>ĐỊNH NGHĨA</span>}
                     slotProps={{

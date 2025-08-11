@@ -1,4 +1,4 @@
-import CreateCourse from "@/features/create-course/create.course"
+import CreateCourse from "@/features/create-course/ui/create.course";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
