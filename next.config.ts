@@ -15,19 +15,18 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '8386',
-        pathname: '/storage/**',
+        protocol: "http",
+        hostname: "localhost",
+        port: "8386",
+        pathname: "/storage/**",
       },
-      // {
-      //   protocol: 'http',
-      //   hostname: 'springboot-backend',
-      //   port: '8386',
-      // }
+      {
+        protocol: "https",
+        hostname: "assets.quizlet.com",
+        pathname: "/**",
+      },
     ],
-    domains: ['assets.quizlet.com'],
-  }
+  },
 };
 
 export default nextConfig;

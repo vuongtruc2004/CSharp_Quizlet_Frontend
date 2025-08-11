@@ -1,3 +1,4 @@
+'use client'
 import { styled, Tooltip, tooltipClasses, TooltipProps } from "@mui/material";
 
 export const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (

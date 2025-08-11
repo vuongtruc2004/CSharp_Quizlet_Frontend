@@ -17,13 +17,9 @@
 
   --color-gray-300-gray-800: #282e3e;
 
-  --color-gray-600-gray-400: #d9dde8;
-
   --color-gray-100-gray-900: #1a1d28;
 
   --color-gray-800-gray-200: #f6f7fb;
-
-  --color-gray-500-gray-400: #d9dde8;
 
   --color-gray-200-gray-800: #282e3e;
 
@@ -39,8 +35,6 @@
 
   --color-twilight-100-gray-600: #586380;
 
-  --color-gray-700-gray-200: #f6f7fb;
-
   --color-gray-200-gray-900: #1a1d28;
 
   --color-orange-400-peach: #ff886c;
@@ -49,4 +43,5 @@
 
   --color-sky-400: #51cfff;
 
+  --color-sunset-400-sunset-300: #ffdc62;
 }

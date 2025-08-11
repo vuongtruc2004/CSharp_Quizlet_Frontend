@@ -1,4 +1,9 @@
 import Register from "@/features/register/ui/register";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Đăng kí",
+};
 
 const RegisterPage = () => {
     return <Register />;

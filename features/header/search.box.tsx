@@ -51,7 +51,7 @@ const SearchBox = () => {
             />
 
             <div className={`pt-5 absolute top-11 left-0 w-full bg-gray-100-gray-900 rounded-lg border border-gray-300-gray-700 z-10 ${isFocus ? 'block' : 'hidden'}`}>
-                <h2 className="font-bold text-gray-500-gray-400 uppercase text-[12px] px-5 mb-3">Nội dung tìm kiếm gần đây</h2>
+                <h2 className="font-bold text-gray-800-gray-400 uppercase text-[12px] px-5 mb-3">Nội dung tìm kiếm gần đây</h2>
 
                 <ul>
                     <li className="cursor-pointer py-2 px-5 hover:bg-gray-200-gray-800 transition-all duration-150 rounded-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, excepturi.</li>

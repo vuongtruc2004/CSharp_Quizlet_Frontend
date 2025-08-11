@@ -1,5 +1,4 @@
-
-import { IVocabulary } from "@/features/vocabulary/services/vocabulary.table"
+import { IVocabulary } from "@/features/vocabulary/services/vocabulary.table";
 import VocabularySearch from "@/features/vocabulary/ui/vocabulary.search";
 import VocabularyTable from "@/features/vocabulary/ui/vocabulary.table";
 import { Metadata } from "next"
@@ -28,14 +27,14 @@ const VocabularyPage = () => {
         { id: 3, title: '雨' }
     ];
     return (
-        <>
+        <div className="pl-4.5">
             <VocabularySearch
                 historySearch={historySearch}
             />
             <VocabularyTable
                 vocabularies={vocabularies}
             />
-        </>
+        </div>
 
     )
 }

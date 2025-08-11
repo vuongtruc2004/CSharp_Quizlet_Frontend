@@ -16,9 +16,9 @@ const HomeBookElement = ({ book }: { book: IBook }) => {
             <div className="flex-1">
                 <h2 className='font-semibold line-clamp-2'>{book.title}</h2>
 
-                <p className="font-bold text-[12px] text-gray-500-gray-400">{book.edition}st Edition</p>
+                <p className="font-bold text-[12px] text-gray-800-gray-400">{book.edition}st Edition</p>
 
-                <div className='font-bold text-[12px] text-gray-500-gray-400'>{book.author}</div>
+                <div className='font-bold text-[12px] text-gray-800-gray-400'>{book.author}</div>
             </div>
 
             <span className="opacity-0 w-full h-1 bg-twilight-500-twilight-300  rounded-b-lg absolute left-0 bottom-0 group-hover/child:opacity-100 transition-all duration-200" />

@@ -5,4 +5,11 @@ interface IVocabulary {
     meaning: string,
 }
 
-export { IVocabulary }
+interface IHistorySearch {
+    id: number,
+    title: string,
+}
+
+interface IProps {
+    historySearch: IHistorySearch[];
+}
