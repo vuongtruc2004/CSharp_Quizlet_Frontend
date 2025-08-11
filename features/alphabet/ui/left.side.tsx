@@ -50,6 +50,7 @@ const LeftSide = ({
                       minHeight: 90,
                       minWidth: 90,
                       backgroundColor: "transparent",
+                      backgroundImage: "none",
                       boxShadow: "none",
                       border: "none",
                     }}
