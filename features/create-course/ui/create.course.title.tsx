@@ -1,6 +1,8 @@
 import { Button, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
+import DeleteAllPopover from "./delete.all.popover";
 
 const CreateCourseTitle = () => {
     return (
@@ -74,15 +76,21 @@ const CreateCourseTitle = () => {
                     borderColor: 'var(--color-gray-400-gray-600)',
                 }}>Nhập</Button>
 
-                <Button variant="outlined" color="third" sx={{
-                    borderRadius: '50%',
-                    borderWidth: '2px',
-                    borderColor: 'var(--color-gray-400-gray-600)',
-                    padding: 0,
-                    width: '40px'
-                }}>
-                    <SettingsOutlinedIcon />
-                </Button>
+                <div className="flex items-center gap-x-3">
+                    <DeleteAllPopover />
+
+                    <CustomTooltip title="Cài đặt">
+                        <Button variant="outlined" color="third" sx={{
+                            borderRadius: '50%',
+                            borderWidth: '2px',
+                            borderColor: 'var(--color-gray-400-gray-600)',
+                            padding: 0,
+                            width: '40px'
+                        }}>
+                            <SettingsOutlinedIcon />
+                        </Button>
+                    </CustomTooltip>
+                </div>
             </div>
         </div>
     )
