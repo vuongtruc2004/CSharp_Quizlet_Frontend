@@ -4,13 +4,28 @@ import { TextField } from '@mui/material';
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities"
 import { CustomTooltip } from '@/components/mui-custom/custom.tooltip';
+import { useCreateCourse } from '@/wrapper/create-course/create.course.wrapper';
+import { ChangeEvent } from 'react';
 
-const CreateCourseQuestionElement = ({ question, index, handleDelete }: { question: IQuestion, index: number, handleDelete: (id: number) => void }) => {
+const CreateCourseQuestionElement = ({ question, index }: { question: IQuestion, index: number }) => {
+    const { setQuestions, questions } = useCreateCourse();
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: question.id });
 
     const style = {
         transition,
         transform: CSS.Transform.toString(transform),
+    }
+
+    const handleDelete = (id: number) => {
+        setQuestions(questions => questions.filter(question => question.id !== id));
+    }
+
+    const handleChangeTerminal = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number) => {
+        setQuestions(questions => questions.map(question => question.id === id ? { ...question, terminology: e.target.value } : question));
+    }
+
+    const handleChangeDefine = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number) => {
+        setQuestions(questions => questions.map(question => question.id === id ? { ...question, define: e.target.value } : question));
     }
 
     return (
@@ -28,10 +43,11 @@ const CreateCourseQuestionElement = ({ question, index, handleDelete }: { questi
                 </span>
             </div>
 
-            <form action="" className='grid grid-cols-2 gap-x-5 p-6'>
+            <form className='grid grid-cols-2 gap-x-5 p-6'>
                 <TextField
                     defaultValue={question.terminology}
                     multiline
+                    onChange={(e) => handleChangeTerminal(e, question.id)}
                     variant="standard"
                     helperText={<span className='text-gray-800-gray-400 font-bold text-[12px]'>THUẬT NGỮ</span>}
                     slotProps={{
@@ -42,8 +58,11 @@ const CreateCourseQuestionElement = ({ question, index, handleDelete }: { questi
                         }
                     }}
                 />
+
                 <TextField
+                    defaultValue={question.define}
                     multiline
+                    onChange={(e) => handleChangeDefine(e, question.id)}
                     variant="standard"
                     helperText={<span className='text-gray-800-gray-400 font-bold text-[12px]'>ĐỊNH NGHĨA</span>}
                     slotProps={{

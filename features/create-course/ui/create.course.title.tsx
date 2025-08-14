@@ -1,10 +1,14 @@
+'use client'
 import { Button, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
 import DeleteAllPopover from "./delete.all.popover";
+import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
 
 const CreateCourseTitle = () => {
+    const { setTitle, title, setDescription, description } = useCreateCourse();
+
     return (
         <div>
             <form className="flex flex-col gap-y-5">
@@ -18,6 +22,7 @@ const CreateCourseTitle = () => {
                             borderWidth: '1px'
                         },
                     }}
+                    value={title}
                     name="title"
                     fullWidth
                     size="small"
@@ -36,6 +41,7 @@ const CreateCourseTitle = () => {
                             }
                         }
                     }}
+                    onChange={(e) => setTitle(e.target.value)}
                 />
 
                 <TextField
@@ -48,6 +54,7 @@ const CreateCourseTitle = () => {
                             borderWidth: '1px'
                         },
                     }}
+                    value={description}
                     name="description"
                     fullWidth
                     multiline
@@ -66,6 +73,7 @@ const CreateCourseTitle = () => {
                             }
                         }
                     }}
+                    onChange={(e) => setDescription(e.target.value)}
                 />
             </form>
 
@@ -74,7 +82,9 @@ const CreateCourseTitle = () => {
                     borderRadius: '32px',
                     borderWidth: '2px',
                     borderColor: 'var(--color-gray-400-gray-600)',
-                }}>Nhập</Button>
+                }}>
+                    Nhập
+                </Button>
 
                 <div className="flex items-center gap-x-3">
                     <DeleteAllPopover />

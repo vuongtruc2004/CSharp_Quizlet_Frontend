@@ -4,13 +4,20 @@ import { Button, Popover } from "@mui/material"
 import { useState } from "react";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CloseIcon from '@mui/icons-material/Close';
+import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
 
 const DeleteAllPopover = () => {
+    const { setQuestions } = useCreateCourse();
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleDeleteAllQuestions = () => {
+        setQuestions([]);
+        handleClose();
+    }
 
     return (
         <>
@@ -38,18 +45,26 @@ const DeleteAllPopover = () => {
                     vertical: 'center',
                     horizontal: 'right',
                 }}
+                slotProps={{
+                    paper: {
+                        style: {
+                            backgroundColor: 'var(--color-gray200-twilight900)',
+                            padding: '12px 8px 8px 20px'
+                        }
+                    }
+                }}
             >
                 <div>
-                    <h3 className="font-semibold text-xl mb-3">Xóa toàn bộ thuật ngữ</h3>
+                    <p className="font-semibold mb-5 mr-16">Xóa toàn bộ thuật ngữ</p>
                     <div className="flex items-center gap-x-3 justify-end">
-                        <Button variant="outlined" color="third" sx={{
-                            borderRadius: '30px',
+                        <Button startIcon={<CloseIcon />} onClick={handleClose} size="small" variant="outlined" color="third" sx={{
                             borderWidth: '2px',
                             borderColor: 'var(--color-gray-400-gray-600)',
-                            width: '85px'
-                        }} startIcon={<CloseIcon />}>Hủy</Button>
+                            borderRadius: '20px',
+                            paddingInline: '20px'
+                        }}>Hủy</Button>
 
-                        <Button variant="contained" color="error" sx={{ borderRadius: '30px', width: '85px' }}>Xóa</Button>
+                        <Button size="small" variant="contained" color="error" sx={{ borderRadius: '20px', paddingInline: '20px' }} onClick={handleDeleteAllQuestions}>Xóa</Button>
                     </div>
                 </div>
             </Popover>

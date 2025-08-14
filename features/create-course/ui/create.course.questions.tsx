@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState } from "react"
+import { Fragment } from "react"
 import CreateCourseQuestionElement from "./create.course.question.element";
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button } from "@mui/material";
@@ -7,53 +7,50 @@ import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
 import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import { closestCorners, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
+import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
 
 const CreateCourseQuestions = () => {
-    const [items, setItems] = useState<IQuestion[]>([
-        { id: 1, terminology: "id: 1", define: "" },
-        { id: 2, terminology: `id: 2`, define: "" },
-        { id: 3, terminology: `id: 3`, define: "" },
-        { id: 4, terminology: `id: 4`, define: "" },
-        { id: 5, terminology: `id: 5`, define: "" }
-    ]);
+    const { questions, setQuestions, title, description } = useCreateCourse();
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
         if (active.id === over?.id) return;
 
-        const originalPos = items.findIndex(item => item.id === active.id);
-        const newPos = items.findIndex(item => item.id === over?.id);
-        setItems(items => {
-            return arrayMove(items, originalPos, newPos);
+        const originalPos = questions.findIndex(question => question.id === active.id);
+        const newPos = questions.findIndex(question => question.id === over?.id);
+        setQuestions(questions => {
+            return arrayMove(questions, originalPos, newPos);
         });
     }
 
     const handleAddAfterIndex = (index: number) => {
-        const id = items.length ? Math.max(...items.map(item => item.id)) + 1 : 1;
-        const newItem: IQuestion = {
+        const id = questions.length ? Math.max(...questions.map(question => question.id)) + 1 : 1;
+        const newQuestion: IQuestion = {
             id,
             terminology: `id: ${id}`,
             define: ""
         };
 
-        const newItems = [...items];
-        newItems.splice(index + 1, 0, newItem);
-        setItems(newItems);
+        const newQuestions = [...questions];
+        newQuestions.splice(index + 1, 0, newQuestion);
+        setQuestions(newQuestions);
     }
 
-    const handleDelete = (id: number) => {
-        setItems(items => items.filter(item => item.id !== id));
+    const handleSubmit = () => {
+        console.log(title);
+        console.log(description);
+        console.log(questions);
     }
 
     return (
         <div>
             <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCorners} modifiers={[restrictToParentElement]}>
-                <SortableContext items={items} strategy={verticalListSortingStrategy}>
-                    {items.map((question, index) => {
-                        if (index < items.length - 1) {
+                <SortableContext items={questions} strategy={verticalListSortingStrategy}>
+                    {questions.map((question, index) => {
+                        if (index < questions.length - 1) {
                             return (
                                 <Fragment key={question.id}>
-                                    <CreateCourseQuestionElement handleDelete={handleDelete} question={question} index={index + 1} />
+                                    <CreateCourseQuestionElement question={question} index={index + 1} />
                                     <Box sx={{
                                         height: '20px',
                                         position: 'relative',
@@ -83,17 +80,17 @@ const CreateCourseQuestions = () => {
                             )
                         }
                         return (
-                            <CreateCourseQuestionElement key={question.id} handleDelete={handleDelete} question={question} index={index + 1} />
+                            <CreateCourseQuestionElement key={question.id} question={question} index={index + 1} />
                         )
                     })}
                 </SortableContext>
 
-                <div onClick={() => handleAddAfterIndex(items.length - 1)} className="w-full bg-gray-100-gray-700 rounded-lg h-28 my-5 flex items-center justify-center group cursor-pointer">
+                <div onClick={() => handleAddAfterIndex(questions.length - 1)} className="w-full bg-gray-100-gray-700 rounded-lg h-28 my-5 flex items-center justify-center group cursor-pointer">
                     <span className="transition-all duration-200 font-bold text-gray-800-gray-200 border-b-4 border-sky-400 pb-3 group-hover:border-sunset-400-sunset-300 group-hover:text-sunset-400-sunset-300">THÊM THẺ</span>
                 </div>
 
                 <div className="flex justify-end mb-5">
-                    <Button variant="contained" color="primary" sx={{
+                    <Button onClick={handleSubmit} variant="contained" color="primary" sx={{
                         borderRadius: '32px',
                         height: '64px',
                         width: '100px'
