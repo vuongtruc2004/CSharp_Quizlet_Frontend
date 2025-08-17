@@ -1,14 +1,18 @@
-import CreateCourseHeader from "./create.course.header"
+'use client'
+import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
+import CreateCourseHeader from "./create.course.header";
 import CreateCourseQuestions from "./create.course.questions"
-import CreateCourseTitle from "./create.course.title"
+import ScrollToTopButton from "@/components/scroll-button/scroll.to.top.button";
 
 const CreateCourse = () => {
+    const { formAction } = useCreateCourse();
+
     return (
-        <div className="h-full">
+        <form action={formAction} className="h-full relative">
             <CreateCourseHeader />
-            <CreateCourseTitle />
             <CreateCourseQuestions />
-        </div>
+            <ScrollToTopButton />
+        </form>
     )
 }
 

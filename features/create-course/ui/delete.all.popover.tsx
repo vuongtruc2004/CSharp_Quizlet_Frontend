@@ -49,13 +49,15 @@ const DeleteAllPopover = () => {
                     paper: {
                         style: {
                             backgroundColor: 'var(--color-gray200-twilight900)',
-                            padding: '12px 8px 8px 20px'
+                            paddingInline: '20px',
+                            paddingBlock: '12px',
+                            backgroundImage: 'none'
                         }
                     }
                 }}
             >
                 <div>
-                    <p className="font-semibold mb-5 mr-16">Xóa toàn bộ thuật ngữ</p>
+                    <p className="font-semibold text-lg mb-8 mr-16">Bạn có muốn xóa toàn bộ thuật ngữ?</p>
                     <div className="flex items-center gap-x-3 justify-end">
                         <Button startIcon={<CloseIcon />} onClick={handleClose} size="small" variant="outlined" color="third" sx={{
                             borderWidth: '2px',

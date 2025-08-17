@@ -1,21 +1,17 @@
 'use client';
-import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
+import { validateCreateCourse } from "@/features/create-course/services/create.course.validate";
+import { createContext, Dispatch, SetStateAction, useActionState, useContext, useState } from "react";
 
 interface ICreateCourseWrapperProps {
     questions: IQuestion[];
     setQuestions: Dispatch<SetStateAction<IQuestion[]>>;
-    title: string;
-    setTitle: Dispatch<SetStateAction<string>>;
-    description: string;
-    setDescription: Dispatch<SetStateAction<string>>;
+    state: CreateCourseValidateResponse | null;
+    formAction: (payload: FormData) => void;
 }
 
 const CreateCourseContext = createContext<ICreateCourseWrapperProps | undefined>(undefined);
 
 export const CreateCourseWrapper = ({ children }: { children: React.ReactNode }) => {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-
     const [questions, setQuestions] = useState<IQuestion[]>([
         { id: 1, terminology: "", define: "" },
         { id: 2, terminology: "", define: "" },
@@ -24,8 +20,11 @@ export const CreateCourseWrapper = ({ children }: { children: React.ReactNode })
         { id: 5, terminology: "", define: "" }
     ]);
 
+    const validateCreateCoursePlus = validateCreateCourse.bind(null, questions);
+    const [state, formAction] = useActionState(validateCreateCoursePlus, null);
+
     return (
-        <CreateCourseContext.Provider value={{ questions, setQuestions, title, setTitle, description, setDescription }}>
+        <CreateCourseContext.Provider value={{ questions, setQuestions, state, formAction }}>
             {children}
         </CreateCourseContext.Provider>
     )

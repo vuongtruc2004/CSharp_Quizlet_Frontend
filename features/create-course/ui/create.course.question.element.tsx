@@ -1,15 +1,18 @@
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import DragHandleOutlinedIcon from '@mui/icons-material/DragHandleOutlined';
-import { TextField } from '@mui/material';
+import { FormControlLabel, TextField } from '@mui/material';
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities"
 import { CustomTooltip } from '@/components/mui-custom/custom.tooltip';
 import { useCreateCourse } from '@/wrapper/create-course/create.course.wrapper';
 import { ChangeEvent } from 'react';
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 
 const CreateCourseQuestionElement = ({ question, index }: { question: IQuestion, index: number }) => {
-    const { setQuestions, questions } = useCreateCourse();
+    const { setQuestions, state } = useCreateCourse();
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: question.id });
+
+    const currentQuestionValidationResponse = state?.questions.find(questionResponse => questionResponse.id === question.id);
 
     const style = {
         transition,
@@ -43,37 +46,37 @@ const CreateCourseQuestionElement = ({ question, index }: { question: IQuestion,
                 </span>
             </div>
 
-            <form className='grid grid-cols-2 gap-x-5 p-6'>
-                <TextField
+            <div className='grid grid-cols-2 gap-x-5 p-6 items-start'>
+                <FormControlLabel sx={{ alignItems: 'flex-start' }} labelPlacement='top' label={<span className='text-gray-800-gray-400 font-bold text-[12px]'>THUẬT NGỮ</span>} control={<TextField
                     defaultValue={question.terminology}
                     multiline
                     onChange={(e) => handleChangeTerminal(e, question.id)}
                     variant="standard"
-                    helperText={<span className='text-gray-800-gray-400 font-bold text-[12px]'>THUẬT NGỮ</span>}
-                    slotProps={{
-                        formHelperText: {
-                            sx: {
-                                marginTop: '8px'
-                            }
-                        }
-                    }}
-                />
+                    sx={{ width: '100%' }}
+                    error={currentQuestionValidationResponse?.terminology.isError}
+                    helperText={currentQuestionValidationResponse?.terminology.isError && (
+                        <span className="flex items-center gap-x-1">
+                            <ErrorOutlineRoundedIcon sx={{ fontSize: '16px' }} />
+                            {currentQuestionValidationResponse.terminology.errorMessage}
+                        </span>
+                    )}
+                />} />
 
-                <TextField
+                <FormControlLabel sx={{ alignItems: 'flex-start' }} labelPlacement='top' label={<span className='text-gray-800-gray-400 font-bold text-[12px]'>ĐỊNH NGHĨA</span>} control={<TextField
                     defaultValue={question.define}
                     multiline
                     onChange={(e) => handleChangeDefine(e, question.id)}
                     variant="standard"
-                    helperText={<span className='text-gray-800-gray-400 font-bold text-[12px]'>ĐỊNH NGHĨA</span>}
-                    slotProps={{
-                        formHelperText: {
-                            sx: {
-                                marginTop: '8px'
-                            }
-                        }
-                    }}
-                />
-            </form>
+                    sx={{ width: '100%' }}
+                    error={currentQuestionValidationResponse?.define.isError}
+                    helperText={currentQuestionValidationResponse?.define.isError && (
+                        <span className="flex items-center gap-x-1">
+                            <ErrorOutlineRoundedIcon sx={{ fontSize: '16px' }} />
+                            {currentQuestionValidationResponse.define.errorMessage}
+                        </span>
+                    )}
+                />} />
+            </div>
         </div>
     )
 }
