@@ -1,11 +1,11 @@
 'use client'
 import { Button, TextField } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
 import DeleteAllPopover from "./delete.all.popover";
 import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
+import CreateCourseImportModal from "./create.course.import.modal";
 
 const CreateCourseHeader = () => {
     const { state } = useCreateCourse();
@@ -86,13 +86,7 @@ const CreateCourseHeader = () => {
             </div>
 
             <div className="my-5 flex items-center justify-between">
-                <Button variant="outlined" color="third" startIcon={<AddIcon />} sx={{
-                    borderRadius: '32px',
-                    borderWidth: '2px',
-                    borderColor: 'var(--color-gray-400-gray-600)',
-                }}>
-                    Nhập
-                </Button>
+                <CreateCourseImportModal />
 
                 <div className="flex items-center gap-x-3">
                     <DeleteAllPopover />
