@@ -30,9 +30,15 @@ const SlideTransition = (props: SlideProps) => {
   return <Slide {...props} direction="up" />;
 };
 
-const VocabularyTable = ({ vocabularies }: { vocabularies: IVocabulary[] }) => {
+const VocabularyTable = ({
+  vocabularies,
+}: {
+  vocabularies: VocabularyResponse[];
+}) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
+  const [currentVocabulary, setCurrentVocabulary] =
+    useState<VocabularyResponse>();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | SVGSVGElement | null>(
     null
   );
@@ -84,15 +90,15 @@ const VocabularyTable = ({ vocabularies }: { vocabularies: IVocabulary[] }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {vocabularies.map((row) => (
+            {vocabularies.map((row, index) => (
               <TableRow key={row.id}>
-                <TableCell sx={{ textAlign: "center" }}>{row.id}</TableCell>
+                <TableCell sx={{ textAlign: "center" }}>{index + 1}</TableCell>
                 <TableCell sx={{ textAlign: "center" }}>{row.kanji}</TableCell>
                 <TableCell sx={{ textAlign: "center" }}>
                   {row.japanese}
                 </TableCell>
                 <TableCell sx={{ textAlign: "center" }}>
-                  {row.meaning}
+                  {row.vietnamese}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -103,7 +109,10 @@ const VocabularyTable = ({ vocabularies }: { vocabularies: IVocabulary[] }) => {
                 >
                   <InfoOutlinedIcon
                     style={{ cursor: "pointer" }}
-                    onClick={() => setOpenDetail(true)}
+                    onClick={() => {
+                      setOpenDetail(true);
+                      setCurrentVocabulary(row);
+                    }}
                   />
                   <CreateOutlinedIcon
                     style={{ cursor: "pointer" }}
@@ -134,8 +143,8 @@ const VocabularyTable = ({ vocabularies }: { vocabularies: IVocabulary[] }) => {
                           <Paper
                             sx={{
                               p: 2,
-                              minWidth: 280, // khung rộng ra
-                              borderRadius: 2, // bo góc (theme spacing = 8px * 2 = 16px)
+                              minWidth: 280,
+                              borderRadius: 2,
                             }}
                           >
                             <Typography sx={{ mb: 2 }}>
@@ -185,7 +194,11 @@ const VocabularyTable = ({ vocabularies }: { vocabularies: IVocabulary[] }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <VocabularyDetail openDetail={openDetail} setOpenDetail={setOpenDetail} />
+      <VocabularyDetail
+        openDetail={openDetail}
+        setOpenDetail={setOpenDetail}
+        vocabulary={currentVocabulary}
+      />
       <VocabularyUpdate openCreate={openUpdate} setOpenCreate={setOpenUpdate} />
 
       <Snackbar

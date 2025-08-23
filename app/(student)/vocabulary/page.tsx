@@ -1,13 +1,15 @@
 // import { IVocabulary } from "@/features/vocabulary/services/vocabulary.table";
 import VocabularySearch from "@/features/vocabulary/ui/vocabulary.search";
 import VocabularyTable from "@/features/vocabulary/ui/vocabulary.table";
+import { sendRequest } from "@/utils/fetch.api";
+import { apiUrl } from "@/utils/url";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Từ Vựng",
 };
 
-const VocabularyPage = () => {
+const VocabularyPage = async () => {
   const vocabularies: IVocabulary[] = [
     { id: 1, kanji: "水", japanese: "みず", meaning: "nước" },
     { id: 2, kanji: "火", japanese: "ひ", meaning: "lửa" },
@@ -26,10 +28,17 @@ const VocabularyPage = () => {
     { id: 2, title: "木" },
     { id: 3, title: "雨" },
   ];
+
+  const vocabularyResponse = await sendRequest<
+    ApiResponse<VocabularyResponse[]>
+  >({
+    url: `${apiUrl}/Vocabularies`,
+  });
+
   return (
     <div className="pl-4.5">
       <VocabularySearch historySearch={historySearch} />
-      <VocabularyTable vocabularies={vocabularies} />
+      <VocabularyTable vocabularies={vocabularyResponse.data} />
     </div>
   );
 };

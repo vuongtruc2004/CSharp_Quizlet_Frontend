@@ -1,15 +1,16 @@
 import { Box, Divider, Drawer, Stack, Typography } from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { vocabularyType } from "../services/vocabulary.type";
 
 const VocabularyDetail = ({
   openDetail,
   setOpenDetail,
-}: // data,
-{
+  vocabulary,
+}: {
   openDetail: boolean;
   setOpenDetail: Dispatch<SetStateAction<boolean>>;
-  // data: T;
+  vocabulary: VocabularyResponse | undefined;
 }) => {
   console.log("SAO");
   return (
@@ -44,7 +45,6 @@ const VocabularyDetail = ({
             </Typography>
           </div>
 
-          {/* {vocabulary ? ( */}
           <Stack spacing={3}>
             <Divider />
 
@@ -61,48 +61,30 @@ const VocabularyDetail = ({
               }}
             >
               <Typography fontWeight="bold">Id:</Typography>
-              <Typography>{/* {vocabulary.id ?? "-"} */}1</Typography>
+              <Typography>{vocabulary?.id ?? "-"}</Typography>
 
               <Typography fontWeight="bold">Kanji:</Typography>
-              <Typography>
-                {/* {vocabulary.kanji ?? "-"} */}
-                学校
-              </Typography>
+              <Typography>{vocabulary?.kanji ?? "-"}</Typography>
 
               <Typography fontWeight="bold">Tiếng Nhật:</Typography>
-              <Typography>
-                {/* {vocabulary.japanese} */}
-                がっこう
-              </Typography>
+              <Typography>{vocabulary?.japanese}</Typography>
 
               <Typography fontWeight="bold">Tiếng Việt:</Typography>
-              <Typography>
-                {/* {vocabulary.vietnamese} */}
-                Trường học
-              </Typography>
+              <Typography>{vocabulary?.vietnamese}</Typography>
 
               <Typography fontWeight="bold">Âm Hán-Việt:</Typography>
-              <Typography>
-                {/* {vocabulary.sinoVietnamese ?? "-"} */}
-                Học hiệu
-              </Typography>
+              <Typography>{vocabulary?.sinoVietnamese ?? "-"}</Typography>
 
               <Typography fontWeight="bold">Loại từ:</Typography>
               <Typography>
-                {/* {vocabulary.vocabularyType} */}
-                Danh từ
+                {vocabularyType.find(
+                  (item) => item.value === String(vocabulary?.vocabularyType)
+                )?.key ?? "Khác"}
               </Typography>
-
               <Typography fontWeight="bold">Ghi chú:</Typography>
-              <Typography>
-                {/* {vocabulary.note ?? "-"} */}
-                Thường dùng trong văn nói và văn viết
-              </Typography>
+              <Typography>{vocabulary?.note ?? "-"}</Typography>
             </Box>
           </Stack>
-          {/* ) : (
-        <Typography align="center">Không có dữ liệu</Typography>
-      )} */}
         </Box>
       </Drawer>
     </Box>
