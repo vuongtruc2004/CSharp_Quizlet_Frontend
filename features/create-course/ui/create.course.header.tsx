@@ -1,13 +1,12 @@
 'use client'
-import { Button, TextField } from "@mui/material";
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
-import DeleteAllPopover from "./delete.all.popover";
 import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import CreateCourseImportModal from "./create.course.import.modal";
+import { Button, TextField } from "@mui/material";
+import DeleteAllPopover from "./delete.all.popover";
+import ImportModal from "./import.modal";
+import SettingsModal from "./manage.access.modal";
 
-const CreateCourseHeader = () => {
+const CreateCourseHeader = ({ course }: { course: CourseResponse }) => {
     const { state } = useCreateCourse();
 
     return (
@@ -21,8 +20,11 @@ const CreateCourseHeader = () => {
                 <TextField
                     sx={{
                         width: '100%',
-                        '& fieldset:not(.mui-1yi7wrd-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline)': {
+                        '& fieldset': {
                             borderWidth: 0,
+                        },
+                        '& fieldset:where(.mui-1yi7wrd-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline)': {
+                            borderWidth: 1,
                         }
                     }}
                     defaultValue={state?.title.value || ""}
@@ -86,22 +88,11 @@ const CreateCourseHeader = () => {
             </div>
 
             <div className="my-5 flex items-center justify-between">
-                <CreateCourseImportModal />
+                <ImportModal />
 
                 <div className="flex items-center gap-x-3">
                     <DeleteAllPopover />
-
-                    <CustomTooltip title="Cài đặt">
-                        <Button variant="outlined" color="third" sx={{
-                            borderRadius: '50%',
-                            borderWidth: '2px',
-                            borderColor: 'var(--color-gray-400-gray-600)',
-                            padding: 0,
-                            width: '40px'
-                        }}>
-                            <SettingsOutlinedIcon />
-                        </Button>
-                    </CustomTooltip>
+                    <SettingsModal />
                 </div>
             </div>
         </>

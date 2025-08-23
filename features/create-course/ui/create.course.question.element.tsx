@@ -41,9 +41,11 @@ const CreateCourseQuestionElement = ({ question, index }: { question: IQuestion,
                     </CustomTooltip>
                 </div>
 
-                <span onClick={() => handleDelete(question.id)} className='ml-3 w-8 h-8 rounded-full text-gray-800-gray-200 hover:bg-gray-300-gray-800 transition-all duration-200 cursor-pointer flex items-center justify-center'>
-                    <DeleteOutlineOutlinedIcon sx={{ fontSize: '1.25rem' }} />
-                </span>
+                <CustomTooltip title="Xóa thẻ ghi nhớ này">
+                    <span onClick={() => handleDelete(question.id)} className='ml-3 w-8 h-8 rounded-full text-gray-800-gray-200 hover:bg-gray-300-gray-800 transition-all duration-200 cursor-pointer flex items-center justify-center'>
+                        <DeleteOutlineOutlinedIcon sx={{ fontSize: '1.25rem' }} />
+                    </span>
+                </CustomTooltip>
             </div>
 
             <div className='grid grid-cols-2 gap-x-5 p-6 items-start'>
