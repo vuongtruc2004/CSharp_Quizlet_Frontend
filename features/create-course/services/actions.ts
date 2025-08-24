@@ -1,8 +1,7 @@
 'use server'
 
-import { sendRequest } from "@/utils/fetch.api";
 
-export async function createCourse(
+export async function validateCreateCourse(
     questions: IQuestion[],
     prevState: any,
     formData: FormData
@@ -32,7 +31,7 @@ export async function createCourse(
     const hasError = questionsValidateResponse.some(q => q.terminology.isError || q.define.isError);
     const hasValidQuestion = questions.some(question => question.define.trim() !== "" && question.terminology.trim() !== "");
 
-    const valid = hasTitle && hasValidQuestion && !hasError;
+    const isValid = hasTitle && hasValidQuestion && !hasError;
 
     const result: CreateCourseValidateResponse = {
         title: {
@@ -42,26 +41,28 @@ export async function createCourse(
         },
         description,
         questions: questionsValidateResponse,
-        hasAtLeast1ValidQuestion: hasValidQuestion
+        hasAtLeast1ValidQuestion: hasValidQuestion,
+        isValid
     };
 
-    if (valid) {
-        const courseRequest: CourseRequest<number> = {
-            title,
-            description,
-            cards: questionsValidateResponse.map(response => ({
-                terminology: String(response.terminology.value || ""),
-                define: String(response.define.value || "")
-            }))
-        };
-        console.log(">>>> check req: ", courseRequest);
-        const response = await sendRequest<ApiResponse<CourseResponse>>({
-            url: '/v1/courses',
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: courseRequest
-        });
-        console.log(">>> check response: ", response);
+    return result;
+}
+
+export async function validateImport(prevState: any, formData: FormData): Promise<ImportValidateResponse> {
+    const data = formData.get('data')?.toString() || "";
+
+    const result: ImportValidateResponse = {
+        isValid: true,
+        data: {
+            value: data,
+            isError: false
+        }
+    }
+
+    if (data.trim().length === 0) {
+        result.data.isError = true;
+        result.data.errorMessage = "Dữ liệu không được để trống!";
+        result.isValid = false;
     }
 
     return result;

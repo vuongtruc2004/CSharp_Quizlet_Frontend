@@ -1,7 +1,6 @@
-import { IVocabulary } from "@/features/vocabulary/services/vocabulary.table";
 import VocabularySearch from "@/features/vocabulary/ui/vocabulary.search";
 import VocabularyTable from "@/features/vocabulary/ui/vocabulary.table";
-import { Metadata } from "next"
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'Từ Vựng',

@@ -15,8 +15,10 @@ interface CreateCourseValidateResponse {
     description: string;
     questions: SingleQuestionValidateResponse[];
     hasAtLeast1ValidQuestion: boolean;
+    isValid: boolean;
 }
 
 interface ImportValidateResponse {
+    isValid: boolean;
     data: ErrorResponse;
 }

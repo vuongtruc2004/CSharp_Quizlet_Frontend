@@ -7,13 +7,13 @@ import ImportModal from "./import.modal";
 import SettingsModal from "./manage.access.modal";
 
 const CreateCourseHeader = () => {
-    const { state } = useCreateCourse();
+    const { state, loading } = useCreateCourse();
 
     return (
         <>
             <div className="flex items-center justify-between py-5 sticky top-0 bg-gray200-twilight900 z-10">
                 <h1 className="text-3xl font-bold">Tạo một học phần mới</h1>
-                <Button variant="contained" sx={{ borderRadius: '32px' }} type="submit">Tạo</Button>
+                <Button variant="contained" sx={{ borderRadius: '32px' }} type="submit" loading={loading}>Tạo</Button>
             </div>
 
             <div className="flex flex-col gap-y-5">

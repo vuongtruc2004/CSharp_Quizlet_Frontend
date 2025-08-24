@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack -p 2509",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 2509",
     "lint": "next lint"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "query-string": "^9.2.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-toastify": "^11.0.5",
     "swiper": "^11.2.10"
   },
   "devDependencies": {

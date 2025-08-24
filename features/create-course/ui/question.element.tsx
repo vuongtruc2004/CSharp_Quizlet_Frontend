@@ -9,7 +9,7 @@ import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import { FormControlLabel, TextField } from '@mui/material';
 import { ChangeEvent } from 'react';
 
-const CreateCourseQuestionElement = ({ question, index }: { question: IQuestion, index: number }) => {
+const QuestionElement = ({ question, index }: { question: IQuestion, index: number }) => {
     const { setQuestions, state } = useCreateCourse();
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: question.id });
 
@@ -33,7 +33,7 @@ const CreateCourseQuestionElement = ({ question, index }: { question: IQuestion,
     }
 
     return (
-        <div ref={setNodeRef} {...attributes} style={style} className='bg-gray-100-gray-700 rounded-lg'>
+        <div ref={setNodeRef} {...attributes} style={style} className='bg-gray-100-gray-700 rounded-lg' suppressHydrationWarning>
             <div className='flex items-center justify-between p-3 border-b-2 border-gray-200-gray-900'>
                 <div {...listeners} className='flex items-center justify-between flex-1 group cursor-grab'>
                     <h2 className='font-semibold w-10 flex items-center justify-center'>{index}</h2>
@@ -84,4 +84,4 @@ const CreateCourseQuestionElement = ({ question, index }: { question: IQuestion,
     )
 }
 
-export default CreateCourseQuestionElement
+export default QuestionElement

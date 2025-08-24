@@ -1,17 +1,14 @@
 'use client'
-import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
 import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
 import { closestCorners, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
-import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import AddIcon from '@mui/icons-material/Add';
+import { arrayMove } from "@dnd-kit/sortable";
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import { Box, Button } from "@mui/material";
-import { Fragment } from "react";
-import CreateCourseQuestionElement from "./create.course.question.element";
+import { Button } from "@mui/material";
+import Questions from "./questions";
 
 const CreateCourseQuestions = () => {
-    const { questions, setQuestions, state } = useCreateCourse();
+    const { questions, setQuestions, state, loading } = useCreateCourse();
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
@@ -19,16 +16,16 @@ const CreateCourseQuestions = () => {
 
         const originalPos = questions.findIndex(question => question.id === active.id);
         const newPos = questions.findIndex(question => question.id === over?.id);
-        setQuestions(questions => {
-            return arrayMove(questions, originalPos, newPos);
-        });
+        if (active.id !== over?.id && originalPos !== newPos) {
+            setQuestions(qs => arrayMove(qs, originalPos, newPos));
+        }
     }
 
     const handleAddAfterIndex = (index: number) => {
         const id = questions.length ? Math.max(...questions.map(question => question.id)) + 1 : 1;
         const newQuestion: IQuestion = {
             id,
-            terminology: `id: ${id}`,
+            terminology: "",
             define: ""
         };
 
@@ -48,60 +45,22 @@ const CreateCourseQuestions = () => {
 
             <div>
                 <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCorners} modifiers={[restrictToParentElement]}>
-                    <SortableContext items={questions} strategy={verticalListSortingStrategy}>
-                        {questions.map((question, index) => {
-                            if (index < questions.length - 1) {
-                                return (
-                                    <Fragment key={question.id}>
-                                        <CreateCourseQuestionElement question={question} index={index + 1} />
-                                        <Box sx={{
-                                            height: '20px',
-                                            position: 'relative',
-                                            ':hover': {
-                                                'button': {
-                                                    opacity: 1
-                                                }
-                                            }
-                                        }}>
-                                            <CustomTooltip title="Thêm thẻ" placement="bottom">
-                                                <Button onClick={() => handleAddAfterIndex(index)} variant="contained" color="primary" sx={{
-                                                    minWidth: '40px',
-                                                    borderRadius: '50%',
-                                                    padding: 0,
-                                                    position: 'absolute',
-                                                    top: '50%',
-                                                    left: '50%',
-                                                    transform: 'translate(-50%, -50%)',
-                                                    opacity: 0,
-                                                    transition: 'all .2s ease'
-                                                }}>
-                                                    <AddIcon />
-                                                </Button>
-                                            </CustomTooltip>
-                                        </Box>
-                                    </Fragment>
-                                )
-                            }
-                            return (
-                                <CreateCourseQuestionElement key={question.id} question={question} index={index + 1} />
-                            )
-                        })}
-                    </SortableContext>
-
-                    <div onClick={() => handleAddAfterIndex(questions.length - 1)} className="w-full bg-gray-100-gray-700 rounded-lg h-28 my-5 flex items-center justify-center group cursor-pointer">
-                        <span className="transition-all duration-200 font-bold text-gray-800-gray-200 border-b-4 border-sky-400 pb-3 group-hover:border-sunset-400-sunset-300 group-hover:text-sunset-400-sunset-300">THÊM THẺ</span>
-                    </div>
-
-                    <div className="flex justify-end mb-5">
-                        <Button type="submit" variant="contained" color="primary" sx={{
-                            borderRadius: '32px',
-                            height: '64px',
-                            width: '100px'
-                        }}>
-                            Tạo
-                        </Button>
-                    </div>
+                    <Questions />
                 </DndContext>
+            </div>
+
+            <div onClick={() => handleAddAfterIndex(questions.length - 1)} className="w-full bg-gray-100-gray-700 rounded-lg h-28 my-5 flex items-center justify-center group cursor-pointer">
+                <span className="transition-all duration-200 font-bold text-gray-800-gray-200 border-b-4 border-sky-400 pb-3 group-hover:border-sunset-400-sunset-300 group-hover:text-sunset-400-sunset-300">THÊM THẺ</span>
+            </div>
+
+            <div className="flex justify-end mb-5">
+                <Button loading={loading} type="submit" variant="contained" color="primary" sx={{
+                    borderRadius: '32px',
+                    height: '64px',
+                    width: '100px'
+                }}>
+                    Tạo
+                </Button>
             </div>
         </>
     )
