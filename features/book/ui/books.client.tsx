@@ -3,128 +3,134 @@
 import { useMemo, useState } from "react";
 import BookSearch from "./book.search";
 import BookList, { BookItem } from "./book.list";
-import CreateBookDialog, { NewBook } from "./create-book.dialog";
+import BookCreate from "./book.create";
+import BookUpdate from "./book.update";
+import BookDetail from "./book.detail";
 
 const uid = () =>
-(typeof crypto !== 'undefined' && 'randomUUID' in crypto
-  ? (crypto as any).randomUUID()
-  : Math.random().toString(36).slice(2));
-
-const slugify = (s: string) =>
-  s.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+(typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? (crypto as any).randomUUID()
+    : Math.random().toString(36).slice(2));
 
 const normalize = (s: string) =>
-  s.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
 
-const initialBooks: BookItem[] = [
-  {
-    id: uid(),
-    slug: "dekiru-nihongo",
-    title: "Dekiru Nihongo (Đỏ)",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequ...",
-    chapters: Array.from({ length: 15 }, (_, i) => i + 1),
-    image: "/images/dekiru.jpg",
-  },
-  {
-    id: uid(),
-    slug: "minna-no-nihongo-i",
-    title: "Minna No Nihongo I",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequ...",
-    chapters: Array.from({ length: 25 }, (_, i) => i + 1),
-    image: "/images/minna.jpg",
-  },
+const initial: BookItem[] = [
+    {
+        id: uid(),
+        title: "Dekiru Nihongo (Đỏ)",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequatur vitae culpa earum qui iure laboriosam ea facere, odit pariatur!",
+        chapters: Array.from({ length: 15 }, (_, i) => i + 1),
+        image: "/images/dekiru.jpg",
+    },
+    {
+        id: uid(),
+        title: "Minna No Nihongo I",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequatur vitae culpa earum qui iure laboriosam ea facere, odit pariatur!",
+        chapters: Array.from({ length: 25 }, (_, i) => i + 1),
+        image: "/images/minna.jpg",
+    },
 ];
 
 export default function BooksClient() {
-  const [books, setBooks] = useState<BookItem[]>(initialBooks);
-  const [query, setQuery] = useState("");
+    const [books, setBooks] = useState<BookItem[]>(initial);
+    const [q, setQ] = useState("");
 
-  // popup create/edit
-  const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState<'create' | 'edit'>('create');
-  const [editingId, setEditingId] = useState<string | null>(null);
+    const filtered = useMemo(() => {
+        if (!q.trim()) return books;
+        const nq = normalize(q.trim());
+        return books.filter(
+            (b) => normalize(b.title).includes(nq) || normalize(b.description).includes(nq)
+        );
+    }, [books, q]);
 
-  const editing = useMemo(
-    () => books.find(b => b.id === editingId) || null,
-    [books, editingId]
-  );
+    // detail / edit states
+    const [detailOpen, setDetailOpen] = useState(false);
+    const [updateOpen, setUpdateOpen] = useState(false);
+    const [createOpen, setCreateOpen] = useState(false);
+    const [current, setCurrent] = useState<BookItem | null>(null);
 
-  // SEARCH (realtime + Enter/icon)
-  const filtered = useMemo(() => {
-    if (!query.trim()) return books;
-    const q = normalize(query.trim());
-    return books.filter(b =>
-      normalize(b.title).includes(q) || normalize(b.description).includes(q)
-    );
-  }, [books, query]);
-
-  // CREATE
-  const openCreate = () => { setMode('create'); setEditingId(null); setOpen(true); };
-  const handleCreate = (data: NewBook) => {
-    const item: BookItem = {
-      id: uid(),
-      slug: slugify(data.title),
-      title: data.title,
-      description: data.description,
-      chapters: Array.from({ length: data.totalChapters }, (_, i) => i + 1),
-      image: data.image || "/images/default-cover.jpg",
+    // crud handlers
+    const createBook = (payload: { title: string; description: string; totalChapters: number; image?: string; }) => {
+        const item: BookItem = {
+            id: uid(),
+            title: payload.title,
+            description: payload.description,
+            chapters: Array.from({ length: payload.totalChapters }, (_, i) => i + 1),
+            image: payload.image || "/images/default-cover.jpg",
+        };
+        setBooks((prev) => [item, ...prev]);
     };
-    setBooks(prev => [item, ...prev]);
-  };
 
-  // EDIT
-  const openEdit = (id: string) => { setMode('edit'); setEditingId(id); setOpen(true); };
-  const handleUpdate = (data: NewBook) => {
-    setBooks(prev => prev.map(b => {
-      if (b.id !== editingId) return b;
-      return {
-        ...b,
-        title: data.title,
-        description: data.description,
-        image: data.image || b.image,
-        slug: slugify(data.title),
-        chapters: Array.from({ length: data.totalChapters }, (_, i) => i + 1),
-      };
-    }));
-  };
+    const updateBook = (payload: { title: string; description: string; totalChapters: number; image?: string; }) => {
+        if (!current) return;
+        setBooks((prev) =>
+            prev.map((b) =>
+                b.id === current.id
+                    ? {
+                        ...b,
+                        title: payload.title,
+                        description: payload.description,
+                        image: payload.image || b.image,
+                        chapters: Array.from({ length: payload.totalChapters }, (_, i) => i + 1),
+                    }
+                    : b
+            )
+        );
+    };
 
-  // DELETE
-  const handleDelete = (id: string) => {
-    const t = books.find(b => b.id === id);
-    if (!t) return;
-    if (confirm(`Xóa sách: "${t.title}"?`)) {
-      setBooks(prev => prev.filter(b => b.id !== id));
-    }
-  };
+    const deleteBook = (b: BookItem) => setBooks((prev) => prev.filter((x) => x.id !== b.id));
 
-  return (
-    <div className="pl-4.5">
-      <BookSearch
-        onSearch={setQuery}            // Enter / click icon
-        onChangeSearch={setQuery}      // realtime
-        onAddBook={openCreate}
-      />
+    return (
+        <div className="pl-4.5">
+            <BookSearch onChangeSearch={setQ} onAddBook={() => setCreateOpen(true)} />
 
-      <BookList
-        items={filtered}
-        onEdit={openEdit}
-        onDelete={handleDelete}
-      />
+            <BookList
+                items={filtered}
+                onDetail={(b) => {
+                    setCurrent(b);
+                    setDetailOpen(true);
+                }}
+                onEdit={(b) => {
+                    setCurrent(b);
+                    setUpdateOpen(true);
+                }}
+                onDelete={deleteBook}
+            />
 
-      <CreateBookDialog
-        open={open}
-        mode={mode}
-        defaultValues={
-          editing ? {
-            title: editing.title,
-            description: editing.description,
-            totalChapters: editing.chapters.length,
-            image: editing.image,
-          } : undefined
-        }
-        onClose={() => setOpen(false)}
-        onSubmit={(payload) => mode === 'create' ? handleCreate(payload) : handleUpdate(payload)}
-      />
-    </div>
-  );
+            <BookCreate openCreate={createOpen} setOpenCreate={setCreateOpen} onSubmit={createBook} />
+
+            <BookUpdate
+                open={updateOpen}
+                setOpen={setUpdateOpen}
+                book={
+                    current
+                        ? {
+                            id: current.id,
+                            title: current.title,
+                            description: current.description,
+                            totalChapters: current.chapters.length,
+                            image: current.image,
+                        }
+                        : undefined
+                }
+                onSubmit={(p) => updateBook(p)}
+            />
+
+            <BookDetail
+                openDetail={detailOpen}
+                setOpenDetail={setDetailOpen}
+                book={
+                    current
+                        ? {
+                            title: current.title,
+                            description: current.description,
+                            totalChapters: current.chapters.length,
+                            image: current.image,
+                        }
+                        : undefined
+                }
+            />
+        </div>
+    );
 }

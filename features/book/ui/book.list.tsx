@@ -3,32 +3,31 @@ import BookCard from './book.card';
 
 export type BookItem = {
     id: string;
-    slug: string;
     title: string;
     description: string;
     chapters: number[];
     image: string;
 };
 
-type Props = {
+export default function BookList({
+    items, onDetail, onEdit, onDelete,
+}: {
     items: BookItem[];
-    onEdit: (id: string) => void;
-    onDelete: (id: string) => void;
-};
-
-const BookList = ({ items, onEdit, onDelete }: Props) => {
+    onDetail: (b: BookItem) => void;
+    onEdit: (b: BookItem) => void;
+    onDelete: (b: BookItem) => void;
+}) {
     return (
         <div className="flex flex-col gap-6 mt-6">
-            {items.map((book) => (
+            {items.map((b) => (
                 <BookCard
-                    key={book.id}
-                    {...book}
-                    onEdit={() => onEdit(book.id)}
-                    onDelete={() => onDelete(book.id)}
+                    key={b.id}
+                    {...b}
+                    onDetail={() => onDetail(b)}
+                    onEdit={() => onEdit(b)}
+                    onDelete={() => onDelete(b)}
                 />
             ))}
         </div>
     );
-};
-
-export default BookList;
+}

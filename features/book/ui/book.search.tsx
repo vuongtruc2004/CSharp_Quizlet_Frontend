@@ -1,86 +1,92 @@
 'use client';
-import { useRef, useState } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import AddRounded from '@mui/icons-material/AddRounded';
-import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material';
+import { ArrowDropDownCircleOutlined } from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
+import {
+    Autocomplete, Button, ButtonGroup, ClickAwayListener, Grow,
+    InputAdornment, MenuItem, MenuList, Paper, Popper, TextField,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import { useRef, useState } from "react";
 
-type BookSearchProps = {
-    onSearch?: (keyword: string) => void;          // Enter / click icon
-    onChangeSearch?: (keyword: string) => void;    // gõ đến đâu lọc đến đó
-    onAddBook?: () => void;                        // mở popup create
-};
+const options = ["Tìm kiếm thường", "Tìm trên Google", "Tìm trên Mazii"];
 
-const BookSearch: React.FC<BookSearchProps> = ({ onSearch, onChangeSearch, onAddBook }) => {
-    const topBooks = [
-        { title: 'Dekiru Nihongo (Đỏ)' },
-        { title: 'Minna No Nihongo I' },
-        { title: 'Shin Nihongo 500 Câu Hỏi' },
-    ];
-
-    const [keyword, setKeyword] = useState('');
-    const inputRef = useRef<HTMLInputElement | null>(null);
-
-    const triggerSearch = () => onSearch?.(keyword.trim());
+export default function BookSearch({
+    onChangeSearch, onAddBook,
+}: { onChangeSearch?: (kw: string) => void; onAddBook?: () => void; }) {
+    const [open, setOpen] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const anchorRef = useRef<HTMLDivElement>(null);
 
     return (
-        <div className="flex gap-4 mt-4">
-            <div className="flex-1">
-                <Autocomplete
-                    freeSolo
-                    id="book-search"
-                    disableClearable
-                    options={topBooks.map((o) => o.title)}
-                    onInputChange={(_, value) => {
-                        setKeyword(value);
-                        onChangeSearch?.(value);
-                    }}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            inputRef={inputRef}
-                            sx={{ width: '100%', '& fieldset': { borderWidth: 0 }, '&:focus fieldset': { borderWidth: '1px' } }}
-                            name="keyword"
-                            size="small"
-                            fullWidth
-                            placeholder="Tìm kiếm sách"
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    e.preventDefault();
-                                    triggerSearch();
-                                }
-                            }}
-                            slotProps={{
-                                input: {
-                                    ...params.InputProps,
-                                    type: 'search',
-                                    startAdornment: (
-                                        <InputAdornment position="start" sx={{ paddingLeft: '8px', cursor: 'pointer' }}>
-                                            <SearchIcon onClick={triggerSearch} aria-label="Tìm kiếm" />
-                                        </InputAdornment>
-                                    ),
-                                    sx: {
-                                        height: '40px',
-                                        borderRadius: '8px',
-                                        bgcolor: 'var(--color-gray-200-gray-700)',
-                                        borderWidth: 0,
-                                        transition: 'all .2s ease',
-                                        '&:focus-within': { bgcolor: 'transparent' },
-                                        padding: 0,
-                                    },
+        <div className="flex items-center gap-x-3 mt-4">
+            <Autocomplete
+                sx={{ flex: 1 }}
+                freeSolo
+                disableClearable
+                options={[]}
+                onInputChange={(_, v) => onChangeSearch?.(v)}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        size="small"
+                        placeholder="Tìm kiếm sách"
+                        sx={{ "& fieldset": { borderWidth: 0 } }}
+                        slotProps={{
+                            input: {
+                                ...params.InputProps,
+                                type: "search",
+                                startAdornment: (
+                                    <InputAdornment position="start" sx={{ pl: "8px" }}>
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                ),
+                                sx: {
+                                    height: "40px",
+                                    borderRadius: "8px",
+                                    bgcolor: "var(--color-gray-200-gray-700)",
+                                    "&:focus-within": { bgcolor: "transparent" },
+                                    p: 0,
                                 },
-                            }}
-                        />
-                    )}
-                />
-            </div>
+                            },
+                        }}
+                    />
+                )}
+            />
 
-            <div className="flex items-center">
-                <Button variant="contained" startIcon={<AddRounded />} onClick={() => onAddBook?.()}>
-                    Thêm mới sách
+            <ButtonGroup variant="contained" ref={anchorRef}>
+                <Button>{options[selectedIndex]}</Button>
+                <Button size="small" onClick={() => setOpen((p) => !p)}>
+                    <ArrowDropDownCircleOutlined />
                 </Button>
-            </div>
+            </ButtonGroup>
+            <Popper open={open} anchorEl={anchorRef.current} transition disablePortal sx={{ zIndex: 1 }}>
+                {({ TransitionProps }) => (
+                    <Grow {...TransitionProps}>
+                        <Paper>
+                            <ClickAwayListener onClickAway={() => setOpen(false)}>
+                                <MenuList autoFocusItem>
+                                    {options.map((o, i) => (
+                                        <MenuItem
+                                            key={o}
+                                            selected={i === selectedIndex}
+                                            onClick={() => {
+                                                setSelectedIndex(i);
+                                                setOpen(false);
+                                            }}
+                                        >
+                                            {o}
+                                        </MenuItem>
+                                    ))}
+                                </MenuList>
+                            </ClickAwayListener>
+                        </Paper>
+                    </Grow>
+                )}
+            </Popper>
+
+            <Button variant="contained" onClick={onAddBook} startIcon={<AddIcon />}>
+                Thêm mới sách
+            </Button>
         </div>
     );
-};
-
-export default BookSearch;
+}
