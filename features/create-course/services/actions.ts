@@ -54,7 +54,6 @@ export async function createCourse(
                 define: String(response.define.value || "")
             }))
         };
-        console.log(">>>> check req: ", courseRequest);
         const response = await sendRequest<ApiResponse<CourseResponse>>({
             url: '/v1/courses',
             method: 'POST',
