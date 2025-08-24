@@ -12,7 +12,6 @@ const VocabularyDetail = ({
   setOpenDetail: Dispatch<SetStateAction<boolean>>;
   vocabulary: VocabularyResponse | undefined;
 }) => {
-  console.log("SAO");
   return (
     <Box>
       <Drawer
@@ -63,17 +62,23 @@ const VocabularyDetail = ({
               <Typography fontWeight="bold">Id:</Typography>
               <Typography>{vocabulary?.id ?? "-"}</Typography>
 
-              <Typography fontWeight="bold">Kanji:</Typography>
-              <Typography>{vocabulary?.kanji ?? "-"}</Typography>
-
               <Typography fontWeight="bold">Tiếng Nhật:</Typography>
               <Typography>{vocabulary?.japanese}</Typography>
 
               <Typography fontWeight="bold">Tiếng Việt:</Typography>
               <Typography>{vocabulary?.vietnamese}</Typography>
 
+              <Typography fontWeight="bold">Kanji:</Typography>
+              <Typography>
+                {vocabulary?.kanji?.trim() ? vocabulary.kanji : "-"}
+              </Typography>
+
               <Typography fontWeight="bold">Âm Hán-Việt:</Typography>
-              <Typography>{vocabulary?.sinoVietnamese ?? "-"}</Typography>
+              <Typography>
+                {vocabulary?.sinoVietnamese?.trim()
+                  ? vocabulary.sinoVietnamese
+                  : "-"}
+              </Typography>
 
               <Typography fontWeight="bold">Loại từ:</Typography>
               <Typography>
@@ -82,7 +87,9 @@ const VocabularyDetail = ({
                 )?.key ?? "Khác"}
               </Typography>
               <Typography fontWeight="bold">Ghi chú:</Typography>
-              <Typography>{vocabulary?.note ?? "-"}</Typography>
+              <Typography>
+                {vocabulary?.note?.trim() ? vocabulary.note : "-"}
+              </Typography>
             </Box>
           </Stack>
         </Box>

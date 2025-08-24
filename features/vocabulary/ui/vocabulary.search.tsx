@@ -1,6 +1,7 @@
 "use client";
 import { ArrowDropDownCircleOutlined } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
 
 import {
   Autocomplete,
@@ -15,29 +16,63 @@ import {
   Popper,
   TextField,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import VocabularyCreate from "./vocabulary.create";
+import { linkGoogle, linkMaji } from "../services/search.link";
 
 const options = [
-  "Tìm kiểm thông thường",
+  "Tìm kiếm thông thường",
   "Tìm kiếm trên Mazii",
-  "Tìm kiến trên Google",
+  "Tìm kiếm trên Google",
 ];
+
+interface IProps {
+  lessons: any[];
+}
 
 const VocabularySearch = (props: IProps) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [openCreate, setOpenCreate] = useState(false);
+  const [keyword, setKeyword] = useState("");
+  const [historySearch, setHistorySearch] = useState<string[]>([]);
+
+  // Lấy lịch sử search từ localStorage khi component mount
+  useEffect(() => {
+    const history = localStorage.getItem("searchHistory");
+    setHistorySearch(history ? JSON.parse(history) : []);
+  }, []);
+
+  // Lưu keyword mới vào localStorage
+  const addToHistory = (keyword: string) => {
+    if (!keyword) return;
+    let history = [...historySearch];
+    // Loại trùng
+    history = history.filter((k) => k !== keyword);
+    // Thêm lên đầu
+    history.unshift(keyword);
+    // Giữ max 10
+    history = history.slice(0, 10);
+    localStorage.setItem("searchHistory", JSON.stringify(history));
+    setHistorySearch(history);
+  };
 
   const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
+    if (!keyword) return;
+    addToHistory(keyword); // Thêm vào lịch sử khi search
+    console.info(
+      `You clicked ${options[selectedIndex]} với từ khóa: ${keyword}`
+    );
+    if (options[selectedIndex] === "Tìm kiếm trên Mazii") {
+      window.open(`${linkMaji}${keyword}`, "_blank", "noopener,noreferrer");
+    }
+    if (options[selectedIndex] === "Tìm kiếm trên Google") {
+      window.open(`${linkGoogle}${keyword}`, "_blank", "noopener,noreferrer");
+    }
   };
 
-  const handleOpenAdd = () => {
-    setOpenCreate(true);
-  };
+  const handleOpenAdd = () => setOpenCreate(true);
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -47,18 +82,14 @@ const VocabularySearch = (props: IProps) => {
     setOpen(false);
   };
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
+  const handleToggle = () => setOpen((prev) => !prev);
 
   const handleClose = (event: Event) => {
     if (
       anchorRef.current &&
       anchorRef.current.contains(event.target as HTMLElement)
-    ) {
+    )
       return;
-    }
-
     setOpen(false);
   };
 
@@ -67,20 +98,24 @@ const VocabularySearch = (props: IProps) => {
       <Autocomplete
         sx={{ flex: 1 }}
         freeSolo
-        id="free-solo-2-demo"
         disableClearable
-        options={props.historySearch.map((option) => option.title)}
+        options={historySearch}
+        inputValue={keyword}
+        onInputChange={(event, newInputValue) => setKeyword(newInputValue)}
+        filterOptions={(options, state) =>
+          options
+            .filter((option) =>
+              option.toLowerCase().includes(state.inputValue.toLowerCase())
+            )
+            .slice(0, 10)
+        }
         renderInput={(params) => (
           <TextField
             {...params}
             sx={{
               width: "100%",
-              "& fieldset": {
-                borderWidth: 0,
-              },
-              "&:focus fieldset": {
-                borderWidth: "1px",
-              },
+              "& fieldset": { borderWidth: 0 },
+              "&:focus fieldset": { borderWidth: "1px" },
             }}
             name="keyword"
             size="small"
@@ -92,7 +127,8 @@ const VocabularySearch = (props: IProps) => {
                 type: "search",
                 startAdornment: (
                   <InputAdornment position="start" sx={{ paddingLeft: "8px" }}>
-                    <SearchIcon />
+                    {" "}
+                    <SearchIcon />{" "}
                   </InputAdornment>
                 ),
                 sx: {
@@ -101,9 +137,7 @@ const VocabularySearch = (props: IProps) => {
                   bgcolor: "var(--color-gray-200-gray-700)",
                   borderWidth: 0,
                   transition: "all .2s ease",
-                  "&:focus-within": {
-                    bgcolor: "transparent",
-                  },
+                  "&:focus-within": { bgcolor: "transparent" },
                   padding: 0,
                 },
               },
@@ -111,11 +145,7 @@ const VocabularySearch = (props: IProps) => {
           />
         )}
       />
-      <ButtonGroup
-        variant="contained"
-        ref={anchorRef}
-        aria-label="Button group with a nested menu"
-      >
+      <ButtonGroup variant="contained" ref={anchorRef}>
         <Button onClick={handleClick}>{options[selectedIndex]}</Button>
         <Button
           size="small"
@@ -162,17 +192,17 @@ const VocabularySearch = (props: IProps) => {
           </Grow>
         )}
       </Popper>
-      <ButtonGroup
-        variant="contained"
-        aria-label="Button group with a nested menu"
-      >
+      <ButtonGroup variant="contained">
         <Button onClick={handleOpenAdd}>
           Thêm mới
           <AddIcon className="ml-2" />
         </Button>
       </ButtonGroup>
-
-      <VocabularyCreate openCreate={openCreate} setOpenCreate={setOpenCreate} />
+      <VocabularyCreate
+        openCreate={openCreate}
+        setOpenCreate={setOpenCreate}
+        lessons={props.lessons}
+      />
     </div>
   );
 };

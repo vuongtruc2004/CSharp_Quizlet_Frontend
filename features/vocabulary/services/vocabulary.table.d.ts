@@ -12,4 +12,5 @@ interface IHistorySearch {
 
 interface IProps {
     historySearch: IHistorySearch[];
+      lessons: LessonResponse[]; 
 }

@@ -2,7 +2,6 @@
 import {
   Box,
   Button,
-  ClickAwayListener,
   Fade,
   Paper,
   Popper,
@@ -15,91 +14,105 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import StarBorderPurple500OutlinedIcon from "@mui/icons-material/StarBorderPurple500Outlined";
+import StarIcon from "@mui/icons-material/Star";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import VocabularyDetail from "./vocabulary.detail";
-import { TransitionProps } from "@mui/material/transitions";
 import VocabularyUpdate from "./vocabulary.update";
+import { sendRequest } from "@/utils/fetch.api";
+import { TransitionProps } from "@mui/material/transitions";
 
-const SlideTransition = (props: SlideProps) => {
-  return <Slide {...props} direction="up" />;
-};
+const SlideTransition = (props: SlideProps) => (
+  <Slide {...props} direction="up" />
+);
 
 const VocabularyTable = ({
   vocabularies,
+  lessons,
 }: {
   vocabularies: VocabularyResponse[];
+  lessons: LessonResponse[];
 }) => {
+  const router = useRouter();
   const [openDetail, setOpenDetail] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [currentVocabulary, setCurrentVocabulary] =
     useState<VocabularyResponse>();
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | SVGSVGElement | null>(
-    null
-  );
-  const [state, setState] = useState<{
+  const [deleteTarget, setDeleteTarget] = useState<{
+    id: number;
+    anchor: HTMLElement | SVGElement | null;
+  } | null>({
+    id: 0,
+    anchor: null,
+  });
+
+  const [snackbar, setSnackbar] = useState<{
     open: boolean;
+    message: string;
     Transition: React.ComponentType<
-      TransitionProps & {
-        children: React.ReactElement<any, any>;
-      }
+      TransitionProps & { children: React.ReactElement<any, any> }
     >;
   }>({
     open: false,
+    message: "",
     Transition: Fade,
   });
 
-  const handleClick =
-    (
-      Transition: React.ComponentType<
-        TransitionProps & {
-          children: React.ReactElement<any, any>;
-        }
-      >
-    ) =>
-    () => {
-      setState({
-        open: true,
-        Transition,
-      });
-    };
+  const handleSnackbar = (message: string, Transition = SlideTransition) => {
+    setSnackbar({ open: true, message, Transition });
+  };
 
-  const handleClose = () => {
-    setState({
-      ...state,
-      open: false,
+  const handleCloseSnackbar = () => setSnackbar({ ...snackbar, open: false });
+
+  const markVocabulary = async (vocabularyId: number) => {
+    const res = await sendRequest<ApiResponse<any>>({
+      url: `/v1/vocabularies/mark/${vocabularyId}`,
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
     });
+    if (res.statusCode === 200) router.refresh();
+  };
+
+  const deleteVocabulary = async (vocabularyId: number) => {
+    const res = await sendRequest<ApiResponse<any>>({
+      url: `/v1/vocabularies/${vocabularyId}`,
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    handleSnackbar(res.userMessage ?? "");
+    setDeleteTarget(null);
+    router.refresh();
   };
 
   return (
     <Box sx={{ marginTop: "10px" }}>
-      <TableContainer component={Box}>
+      <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ textAlign: "center" }}>STT</TableCell>
-              <TableCell sx={{ textAlign: "center" }}>Kanji</TableCell>
-              <TableCell sx={{ textAlign: "center" }}>Tiếng Nhật</TableCell>
-              <TableCell sx={{ textAlign: "center" }}>Nghĩa</TableCell>
-              <TableCell sx={{ textAlign: "center" }}>Hành Động</TableCell>
+              <TableCell align="center">STT</TableCell>
+              <TableCell align="center">Kanji</TableCell>
+              <TableCell align="center">Tiếng Nhật</TableCell>
+              <TableCell align="center">Nghĩa</TableCell>
+              <TableCell align="center">Hành Động</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {vocabularies.map((row, index) => (
+            {vocabularies?.map((row, index) => (
               <TableRow key={row.id}>
-                <TableCell sx={{ textAlign: "center" }}>{index + 1}</TableCell>
-                <TableCell sx={{ textAlign: "center" }}>{row.kanji}</TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {row.japanese}
+                <TableCell align="center">{index + 1}</TableCell>
+                <TableCell align="center">
+                  {row.kanji?.trim() ? row.kanji : "-"}
                 </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {row.vietnamese}
-                </TableCell>
+                <TableCell align="center">{row.japanese}</TableCell>
+                <TableCell align="center">{row.vietnamese}</TableCell>
                 <TableCell
                   sx={{
                     display: "flex",
@@ -107,106 +120,112 @@ const VocabularyTable = ({
                     alignItems: "center",
                   }}
                 >
-                  <InfoOutlinedIcon
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      setOpenDetail(true);
-                      setCurrentVocabulary(row);
-                    }}
-                  />
-                  <CreateOutlinedIcon
-                    style={{ cursor: "pointer" }}
-                    onClick={() => setOpenUpdate(true)}
-                  />
-
-                  <DeleteOutlineOutlinedIcon
-                    onClick={(e) => setAnchorEl(e.currentTarget)}
-                    style={{ cursor: "pointer" }}
-                  />
-                  <ClickAwayListener
-                    onClickAway={(event) => {
-                      if (anchorEl && anchorEl.contains(event.target as Node)) {
-                        return;
+                  <Tooltip title="Xem chi tiết" arrow>
+                    <InfoOutlinedIcon
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        setCurrentVocabulary(row);
+                        setOpenDetail(true);
+                      }}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Cập nhật" arrow>
+                    <CreateOutlinedIcon
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        setOpenUpdate(true);
+                        setCurrentVocabulary(row);
+                      }}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Xóa" arrow>
+                    <DeleteOutlineOutlinedIcon
+                      style={{ cursor: "pointer" }}
+                      onClick={(e) =>
+                        setDeleteTarget({ id: row.id, anchor: e.currentTarget })
                       }
-                      setAnchorEl(null);
-                    }}
+                    />
+                  </Tooltip>
+                  <Popper
+                    sx={{ zIndex: 1200 }}
+                    open={deleteTarget?.id === row.id}
+                    anchorEl={deleteTarget?.anchor}
+                    placement="top"
+                    transition
                   >
-                    <Popper
-                      sx={{ zIndex: 1200 }}
-                      open={Boolean(anchorEl)}
-                      anchorEl={anchorEl}
-                      placement="top"
-                      transition
-                    >
-                      {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                          <Paper
+                    {({ TransitionProps }) => (
+                      <Fade {...TransitionProps} timeout={350}>
+                        <Paper sx={{ p: 2, minWidth: 280, borderRadius: 2 }}>
+                          <Typography sx={{ mb: 2 }}>
+                            Bạn có chắc muốn xóa không?
+                          </Typography>
+                          <Box
                             sx={{
-                              p: 2,
-                              minWidth: 280,
-                              borderRadius: 2,
+                              display: "flex",
+                              justifyContent: "flex-end",
+                              gap: 1,
                             }}
                           >
-                            <Typography sx={{ mb: 2 }}>
-                              Bạn có chắc muốn xóa không?
-                            </Typography>
-
-                            <Box
-                              sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                gap: 1,
-                              }}
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              sx={{ borderRadius: 2 }}
+                              onClick={() => setDeleteTarget(null)}
                             >
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                sx={{ borderRadius: 2 }}
-                                onClick={() => setAnchorEl(null)}
-                              >
-                                Hủy
-                              </Button>
-                              <Button
-                                variant="contained"
-                                color="error"
-                                size="small"
-                                sx={{ borderRadius: 2 }}
-                                onClick={() => {
-                                  setAnchorEl(null);
-                                  handleClick(SlideTransition)();
-                                }}
-                              >
-                                Xóa
-                              </Button>
-                            </Box>
-                          </Paper>
-                        </Fade>
-                      )}
-                    </Popper>
-                  </ClickAwayListener>
-
-                  <StarBorderPurple500OutlinedIcon
-                    style={{ cursor: "pointer" }}
-                  />
+                              Hủy
+                            </Button>
+                            <Button
+                              variant="contained"
+                              color="error"
+                              size="small"
+                              sx={{ borderRadius: 2 }}
+                              onClick={() => deleteVocabulary(row.id)}
+                            >
+                              Xóa
+                            </Button>
+                          </Box>
+                        </Paper>
+                      </Fade>
+                    )}
+                  </Popper>
+                  <Tooltip title="Đánh sao" arrow>
+                    {!row.isMarked ? (
+                      <StarBorderPurple500OutlinedIcon
+                        className="cursor-pointer"
+                        onClick={() => markVocabulary(row.id)}
+                      />
+                    ) : (
+                      <StarIcon
+                        className="cursor-pointer text-yellow-400"
+                        onClick={() => markVocabulary(row.id)}
+                      />
+                    )}
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
       <VocabularyDetail
         openDetail={openDetail}
         setOpenDetail={setOpenDetail}
         vocabulary={currentVocabulary}
       />
-      <VocabularyUpdate openCreate={openUpdate} setOpenCreate={setOpenUpdate} />
+      <VocabularyUpdate
+        openCreate={openUpdate}
+        setOpenCreate={setOpenUpdate}
+        vocabulary={currentVocabulary}
+        lessons={lessons}
+      />
 
       <Snackbar
-        open={state.open}
-        onClose={handleClose}
-        slots={{ transition: state.Transition }}
-        message="Delete vocabulary succesfully!"
-        key={state.Transition.name}
+        open={snackbar.open}
+        onClose={handleCloseSnackbar}
+        slots={{ transition: snackbar.Transition }}
+        message={snackbar.message}
+        key={snackbar.Transition.name}
         autoHideDuration={1200}
       />
     </Box>
