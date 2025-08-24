@@ -1,3 +1,4 @@
+import queryString from "query-string";
 
 interface IProps {
     url: string;
@@ -9,7 +10,9 @@ interface IProps {
     nextOption?: RequestCache | any;
 }
 export const sendRequest = async <T>(props: IProps) => {
-    let url = props.url;
+    const prefixUrl = process.env.NEXT_PUBLIC_API_URL;
+    let url = prefixUrl + props.url;
+
     const {
         method = "GET",
         body,
@@ -32,8 +35,8 @@ export const sendRequest = async <T>(props: IProps) => {
         options.credentials = "include";
     }
 
-    // if (queryParams) {
-    //     url = `${url}?${queryString.stringify(queryParams)}`;
-    // }
+    if (queryParams) {
+        url = `${url}?${queryString.stringify(queryParams)}`;
+    }
     return fetch(url, options).then(response => response.json() as T);
 }

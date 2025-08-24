@@ -1,21 +1,33 @@
+'use client'
+import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import { Button, TextField } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import DeleteAllPopover from "./delete.all.popover";
+import ImportModal from "./import.modal";
+import SettingsModal from "./manage.access.modal";
 
-const CreateCourseTitle = () => {
+const CreateCourseHeader = () => {
+    const { state } = useCreateCourse();
+
     return (
-        <div>
-            <form className="flex flex-col gap-y-5">
+        <>
+            <div className="flex items-center justify-between py-5 sticky top-0 bg-gray200-twilight900 z-10">
+                <h1 className="text-3xl font-bold">Tạo một học phần mới</h1>
+                <Button variant="contained" sx={{ borderRadius: '32px' }} type="submit">Tạo</Button>
+            </div>
+
+            <div className="flex flex-col gap-y-5">
                 <TextField
                     sx={{
                         width: '100%',
                         '& fieldset': {
                             borderWidth: 0,
                         },
-                        '&:focus fieldset': {
-                            borderWidth: '1px'
-                        },
+                        '& fieldset:where(.mui-1yi7wrd-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline)': {
+                            borderWidth: 1,
+                        }
                     }}
+                    defaultValue={state?.title.value || ""}
                     name="title"
                     fullWidth
                     size="small"
@@ -32,8 +44,18 @@ const CreateCourseTitle = () => {
                                     bgcolor: 'transparent'
                                 }
                             }
+                        },
+                        formHelperText: {
+                            sx: { marginLeft: 0 }
                         }
                     }}
+                    error={state?.title.isError}
+                    helperText={state?.title.isError && (
+                        <span className="flex items-center gap-x-1">
+                            <ErrorOutlineRoundedIcon sx={{ fontSize: '16px' }} />
+                            {state?.title.errorMessage}
+                        </span>
+                    )}
                 />
 
                 <TextField
@@ -41,11 +63,9 @@ const CreateCourseTitle = () => {
                         width: '100%',
                         '& fieldset': {
                             borderWidth: 0,
-                        },
-                        '&:focus fieldset': {
-                            borderWidth: '1px'
-                        },
+                        }
                     }}
+                    defaultValue={state?.description || ""}
                     name="description"
                     fullWidth
                     multiline
@@ -65,27 +85,18 @@ const CreateCourseTitle = () => {
                         }
                     }}
                 />
-            </form>
+            </div>
 
             <div className="my-5 flex items-center justify-between">
-                <Button variant="outlined" color="third" startIcon={<AddIcon />} sx={{
-                    borderRadius: '32px',
-                    borderWidth: '2px',
-                    borderColor: 'var(--color-gray-400-gray-600)',
-                }}>Nhập</Button>
+                <ImportModal />
 
-                <Button variant="outlined" color="third" sx={{
-                    borderRadius: '50%',
-                    borderWidth: '2px',
-                    borderColor: 'var(--color-gray-400-gray-600)',
-                    padding: 0,
-                    width: '40px'
-                }}>
-                    <SettingsOutlinedIcon />
-                </Button>
+                <div className="flex items-center gap-x-3">
+                    <DeleteAllPopover />
+                    <SettingsModal />
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 
-export default CreateCourseTitle
+export default CreateCourseHeader
