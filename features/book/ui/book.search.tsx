@@ -1,21 +1,16 @@
 'use client';
-import { ArrowDropDownCircleOutlined } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
-import {
-    Autocomplete, Button, ButtonGroup, ClickAwayListener, Grow,
-    InputAdornment, MenuItem, MenuList, Paper, Popper, TextField,
-} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useRef, useState } from "react";
-
-const options = ["Tìm kiếm thường", "Tìm trên Google", "Tìm trên Mazii"];
+import { Autocomplete, Button, InputAdornment, TextField } from "@mui/material";
+import { useState } from "react";
 
 export default function BookSearch({
     onChangeSearch, onAddBook,
-}: { onChangeSearch?: (kw: string) => void; onAddBook?: () => void; }) {
-    const [open, setOpen] = useState(false);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const anchorRef = useRef<HTMLDivElement>(null);
+}: {
+    onChangeSearch?: (kw: string) => void;
+    onAddBook?: () => void;
+}) {
+    const [kw, setKw] = useState("");
 
     return (
         <div className="flex items-center gap-x-3 mt-4">
@@ -24,7 +19,10 @@ export default function BookSearch({
                 freeSolo
                 disableClearable
                 options={[]}
-                onInputChange={(_, v) => onChangeSearch?.(v)}
+                onInputChange={(_, v) => {
+                    setKw(v);
+                    onChangeSearch?.(v);
+                }}
                 renderInput={(params) => (
                     <TextField
                         {...params}
@@ -52,37 +50,6 @@ export default function BookSearch({
                     />
                 )}
             />
-
-            <ButtonGroup variant="contained" ref={anchorRef}>
-                <Button>{options[selectedIndex]}</Button>
-                <Button size="small" onClick={() => setOpen((p) => !p)}>
-                    <ArrowDropDownCircleOutlined />
-                </Button>
-            </ButtonGroup>
-            <Popper open={open} anchorEl={anchorRef.current} transition disablePortal sx={{ zIndex: 1 }}>
-                {({ TransitionProps }) => (
-                    <Grow {...TransitionProps}>
-                        <Paper>
-                            <ClickAwayListener onClickAway={() => setOpen(false)}>
-                                <MenuList autoFocusItem>
-                                    {options.map((o, i) => (
-                                        <MenuItem
-                                            key={o}
-                                            selected={i === selectedIndex}
-                                            onClick={() => {
-                                                setSelectedIndex(i);
-                                                setOpen(false);
-                                            }}
-                                        >
-                                            {o}
-                                        </MenuItem>
-                                    ))}
-                                </MenuList>
-                            </ClickAwayListener>
-                        </Paper>
-                    </Grow>
-                )}
-            </Popper>
 
             <Button variant="contained" onClick={onAddBook} startIcon={<AddIcon />}>
                 Thêm mới sách
