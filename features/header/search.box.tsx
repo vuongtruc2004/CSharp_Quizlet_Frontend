@@ -50,7 +50,7 @@ const SearchBox = () => {
                 }}
             />
 
-            <div className={`pt-5 absolute top-11 left-0 w-full bg-gray-100-gray-900 rounded-lg border border-gray-300-gray-700 z-10 ${isFocus ? 'block' : 'hidden'}`}>
+            <div className={`pt-5 absolute top-11 left-0 w-full bg-gray-100-gray-900 rounded-lg border border-gray-300-gray-700 z-20 ${isFocus ? 'block' : 'hidden'}`}>
                 <h2 className="font-bold text-gray-800-gray-400 uppercase text-[12px] px-5 mb-3">Nội dung tìm kiếm gần đây</h2>
 
                 <ul>

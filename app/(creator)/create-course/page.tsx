@@ -1,4 +1,5 @@
-import CreateCourse from "@/features/create-course/create.course"
+import CreateCourse from "@/features/create-course/ui/create.course";
+import { CreateCourseWrapper } from "@/wrapper/create-course/create.course.wrapper";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
 
 const CreateCoursePage = () => {
     return (
-        <CreateCourse />
+        <CreateCourseWrapper>
+            <CreateCourse />
+        </CreateCourseWrapper>
     )
 }
 
