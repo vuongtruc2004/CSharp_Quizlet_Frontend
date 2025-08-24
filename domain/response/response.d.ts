@@ -11,6 +11,14 @@ interface ApiResponse<T> {
     data: T;
 }
 
+interface PageDetailsResponse<T> {
+    pageNumber: number;
+    pageSize: number;
+    totalElements: number;
+    totalPages: number;
+    content: T;
+}
+
 interface BaseResponse<TKey> {
     id: TKey,
     createdBy: string;
@@ -23,4 +31,10 @@ interface CourseResponse extends BaseResponse<number> {
     title: string;
     description: string;
     fullname: string;
+    cards: CardResponse[];
+}
+
+interface CardResponse extends BaseResponse<number> {
+    terminology: string;
+    define: string;
 }
