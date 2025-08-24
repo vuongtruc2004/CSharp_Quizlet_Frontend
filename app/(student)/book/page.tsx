@@ -1,16 +1,8 @@
 import { Metadata } from "next";
-import BookSearch from "@/features/book/book.search";
-import BookList from "@/features/book/book.list";
+import BooksClient from "@/features/book/ui/books.client";
 
-export const metadata: Metadata = {
-    title: "Sách",
-};
+export const metadata: Metadata = { title: "Sách" };
 
 export default function BookPage() {
-    return (
-        <div className="pl-4.5">
-            <BookSearch />
-            <BookList />
-        </div>
-    );
+    return <BooksClient />;
 }
