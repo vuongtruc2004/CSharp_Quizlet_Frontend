@@ -2,18 +2,18 @@
 import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import { Button, TextField } from "@mui/material";
-import DeleteAllPopover from "./delete.all.popover";
-import ImportModal from "./import.modal";
-import SettingsModal from "./manage.access.modal";
+import DeleteAllModal from "../modals/delete.all.modal";
+import ImportModal from "../modals/import.modal";
+import ManageAccessModal from "../modals/manage.access.modal";
 
 const CreateCourseHeader = () => {
-    const { state, loading } = useCreateCourse();
+    const { state, isPending, questions } = useCreateCourse();
 
     return (
         <>
             <div className="flex items-center justify-between py-5 sticky top-0 bg-gray200-twilight900 z-10">
-                <h1 className="text-3xl font-bold">Tạo một học phần mới</h1>
-                <Button variant="contained" sx={{ borderRadius: '32px' }} type="submit" loading={loading}>Tạo</Button>
+                <h1 className="text-3xl font-bold">Tạo một học phần mới <span className="text-sm text-gray-800-gray-400">({questions.filter(question => question.terminology.trim() !== "" && question.define.trim() !== "").length} thẻ ghi nhớ)</span></h1>
+                <Button variant="contained" sx={{ borderRadius: '32px' }} type="submit" loading={isPending}>Tạo</Button>
             </div>
 
             <div className="flex flex-col gap-y-5">
@@ -31,7 +31,7 @@ const CreateCourseHeader = () => {
                     name="title"
                     fullWidth
                     size="small"
-                    placeholder='Nhập tiêu đề, ví dụ "KANJI Bài 1 (Dekiru Nihongo Xanh)"'
+                    placeholder='Nhập tiêu đề, ví dụ "KANJI Bài 1 (Marugoto)"'
                     slotProps={{
                         input: {
                             sx: {
@@ -91,8 +91,8 @@ const CreateCourseHeader = () => {
                 <ImportModal />
 
                 <div className="flex items-center gap-x-3">
-                    <DeleteAllPopover />
-                    <SettingsModal />
+                    <DeleteAllModal />
+                    <ManageAccessModal />
                 </div>
             </div>
         </>

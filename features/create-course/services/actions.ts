@@ -1,7 +1,7 @@
 'use server'
+import { sendRequest } from "@/utils/fetch.api";
 
-
-export async function validateCreateCourse(
+export async function createCourse(
     questions: IQuestion[],
     prevState: any,
     formData: FormData
@@ -19,6 +19,7 @@ export async function validateCreateCourse(
         if (question.terminology.trim() !== "" && question.define.trim() === "") {
             questionResponse.define.isError = true;
             questionResponse.define.errorMessage = "Vui lòng không để trống định nghĩa!";
+
         } else if (question.terminology.trim() === "" && question.define.trim() !== "") {
             questionResponse.terminology.isError = true;
             questionResponse.terminology.errorMessage = "Vui lòng không để trống thuật ngữ!";
@@ -42,8 +43,27 @@ export async function validateCreateCourse(
         description,
         questions: questionsValidateResponse,
         hasAtLeast1ValidQuestion: hasValidQuestion,
-        isValid
     };
+
+    if (isValid) {
+        const courseRequest: CourseRequest<number> = {
+            title,
+            description,
+            cards: questions.map(q => ({
+                terminology: q.terminology,
+                define: q.define
+            }))
+        };
+
+        const response = await sendRequest<ApiResponse<CourseResponse>>({
+            url: "/v1/courses",
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: courseRequest
+        });
+
+        result.response = response;
+    }
 
     return result;
 }

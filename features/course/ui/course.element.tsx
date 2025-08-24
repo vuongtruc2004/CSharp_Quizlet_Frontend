@@ -1,7 +1,7 @@
 import { Avatar, Divider } from "@mui/material"
 import Link from "next/link"
 
-const CourseListItem = () => {
+const CourseElement = () => {
     return (
         <Link href={"/course"} className="px-5 py-3 rounded-sm bg-gray-100-gray-700 transition-all duration-300 border-b-4 border-gray-100-gray-700 hover:border-twilight-500-twilight-300">
             <div className="flex items-center gap-x-3">
@@ -21,4 +21,4 @@ const CourseListItem = () => {
     )
 }
 
-export default CourseListItem
+export default CourseElement

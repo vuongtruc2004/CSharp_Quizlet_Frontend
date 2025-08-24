@@ -4,14 +4,16 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { Backdrop, Button, Divider, FormControl, FormControlLabel, Modal, Radio, RadioGroup, TextField } from "@mui/material";
 import { FormEvent, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 const ImportModal = () => {
-    const { setQuestions, questions } = useCreateCourse();
+    const { setQuestions } = useCreateCourse();
     const [open, setOpen] = useState(false);
-    const handleClose = () => setOpen(false);
 
     const [separatorBetweenTermAndDef, setSeparatorBetweenTermAndDef] = useState<"tab" | "commas">("tab");
     const [separatorBetweenCards, setSeparatorBetweenCards] = useState<"newline" | "semicolon">("newline");
+
+    const handleClose = () => setOpen(false);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -19,12 +21,11 @@ const ImportModal = () => {
         const data = formData.get('data')?.toString() || "";
 
         const cards = separatorBetweenCards === "newline" ? data.split(/\r?\n/) : data.split(";");
-        let maxId = questions.length ? Math.max(...questions.map(question => question.id)) + 1 : 1;
 
         const newQuestions: IQuestion[] = cards.map(card => {
             const parts = separatorBetweenTermAndDef === "tab" ? card.split("\t") : card.split(",");
             return {
-                id: maxId++,
+                id: uuidv4(),
                 terminology: parts[0],
                 define: parts[1]
             }
