@@ -21,14 +21,14 @@ const initial: BookItem[] = [
         title: "Dekiru Nihongo (Đỏ)",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequatur vitae culpa earum qui iure laboriosam ea facere, odit pariatur!",
         chapters: Array.from({ length: 15 }, (_, i) => i + 1),
-        image: "/images/dekiru.jpg",
+        image: "https://www.tieng-nhat.com/wp-content/uploads/2022/10/dekiri-nihongo-so-cap.jpg",
     },
     {
         id: uid(),
         title: "Minna No Nihongo I",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequatur vitae culpa earum qui iure laboriosam ea facere, odit pariatur!",
         chapters: Array.from({ length: 25 }, (_, i) => i + 1),
-        image: "/images/minna.jpg",
+        image: "https://s2.studylib.net/store/data/026088106_1-12b76a2a71bc84f53909fcf8ae97dbca-768x994.png",
     },
 ];
 
