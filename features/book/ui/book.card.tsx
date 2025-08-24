@@ -25,16 +25,20 @@ const BookCard: React.FC<BookCardProps> = ({
             <div className="absolute top-2 right-2 flex gap-1">
                 <StarBorderPurple500OutlinedIcon className="opacity-80" />
                 <Tooltip title="Sửa">
-                    <IconButton size="small" onClick={onEdit}><EditRounded className="text-white" fontSize="small" /></IconButton>
+                    <IconButton size="small" onClick={onEdit}>
+                        <EditRounded className="text-white" fontSize="small" />
+                    </IconButton>
                 </Tooltip>
                 <Tooltip title="Xóa">
-                    <IconButton size="small" onClick={onDelete}><DeleteRounded className="text-white" fontSize="small" /></IconButton>
+                    <IconButton size="small" onClick={onDelete}>
+                        <DeleteRounded className="text-white" fontSize="small" />
+                    </IconButton>
                 </Tooltip>
             </div>
 
-            {/* bấm vào card để đi đến trang chương, sau này bạn làm pages/[slug] */}
             <Link href={`/books/${slug}`} className="block">
-                <div className="flex gap-6">
+                <div className="flex gap-6 hover:bg-[#383f63] transition rounded-lg p-1">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={image} alt={title} className="w-32 h-44 object-cover rounded" />
                     <div className="flex-1">
                         <h3 className="text-lg font-bold">{title}</h3>
@@ -42,7 +46,7 @@ const BookCard: React.FC<BookCardProps> = ({
                         <p className="mb-1 font-semibold">Chương:</p>
                         <div className="flex flex-wrap gap-2">
                             {chapters.map((ch) => (
-                                <span key={ch} className="px-3 py-1 text-xs border border-gray-500 rounded hover:bg-[#3f4a7a]">
+                                <span key={ch} className="px-3 py-1 text-xs border border-gray-500 rounded">
                                     {ch}
                                 </span>
                             ))}

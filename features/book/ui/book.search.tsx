@@ -2,19 +2,15 @@
 import { useRef, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import AddRounded from '@mui/icons-material/AddRounded';
-import {
-    Autocomplete,
-    Button,
-    InputAdornment,
-    TextField,
-} from '@mui/material';
+import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material';
 
 type BookSearchProps = {
-    onSearch?: (keyword: string) => void;
-    onAddBook?: () => void;
+    onSearch?: (keyword: string) => void;          // Enter / click icon
+    onChangeSearch?: (keyword: string) => void;    // gõ đến đâu lọc đến đó
+    onAddBook?: () => void;                        // mở popup create
 };
 
-const BookSearch: React.FC<BookSearchProps> = ({ onSearch, onAddBook }) => {
+const BookSearch: React.FC<BookSearchProps> = ({ onSearch, onChangeSearch, onAddBook }) => {
     const topBooks = [
         { title: 'Dekiru Nihongo (Đỏ)' },
         { title: 'Minna No Nihongo I' },
@@ -24,11 +20,7 @@ const BookSearch: React.FC<BookSearchProps> = ({ onSearch, onAddBook }) => {
     const [keyword, setKeyword] = useState('');
     const inputRef = useRef<HTMLInputElement | null>(null);
 
-    const triggerSearch = () => {
-        const k = keyword.trim();
-        if (!k) return;
-        onSearch?.(k);
-    };
+    const triggerSearch = () => onSearch?.(keyword.trim());
 
     return (
         <div className="flex gap-4 mt-4">
@@ -37,17 +29,16 @@ const BookSearch: React.FC<BookSearchProps> = ({ onSearch, onAddBook }) => {
                     freeSolo
                     id="book-search"
                     disableClearable
-                    options={topBooks.map((option) => option.title)}
-                    onInputChange={(_, value) => setKeyword(value)}
+                    options={topBooks.map((o) => o.title)}
+                    onInputChange={(_, value) => {
+                        setKeyword(value);
+                        onChangeSearch?.(value);
+                    }}
                     renderInput={(params) => (
                         <TextField
                             {...params}
                             inputRef={inputRef}
-                            sx={{
-                                width: '100%',
-                                '& fieldset': { borderWidth: 0 },
-                                '&:focus fieldset': { borderWidth: '1px' },
-                            }}
+                            sx={{ width: '100%', '& fieldset': { borderWidth: 0 }, '&:focus fieldset': { borderWidth: '1px' } }}
                             name="keyword"
                             size="small"
                             fullWidth
@@ -64,10 +55,7 @@ const BookSearch: React.FC<BookSearchProps> = ({ onSearch, onAddBook }) => {
                                     type: 'search',
                                     startAdornment: (
                                         <InputAdornment position="start" sx={{ paddingLeft: '8px', cursor: 'pointer' }}>
-                                            <SearchIcon
-                                                onClick={triggerSearch}
-                                                aria-label="Tìm kiếm"
-                                            />
+                                            <SearchIcon onClick={triggerSearch} aria-label="Tìm kiếm" />
                                         </InputAdornment>
                                     ),
                                     sx: {
@@ -87,11 +75,7 @@ const BookSearch: React.FC<BookSearchProps> = ({ onSearch, onAddBook }) => {
             </div>
 
             <div className="flex items-center">
-                <Button
-                    variant="contained"
-                    startIcon={<AddRounded />}
-                    onClick={() => onAddBook?.()}
-                >
+                <Button variant="contained" startIcon={<AddRounded />} onClick={() => onAddBook?.()}>
                     Thêm mới sách
                 </Button>
             </div>
