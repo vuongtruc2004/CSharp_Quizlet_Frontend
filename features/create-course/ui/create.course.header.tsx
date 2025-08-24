@@ -6,7 +6,7 @@ import DeleteAllPopover from "./delete.all.popover";
 import ImportModal from "./import.modal";
 import SettingsModal from "./manage.access.modal";
 
-const CreateCourseHeader = ({ course }: { course: CourseResponse }) => {
+const CreateCourseHeader = () => {
     const { state } = useCreateCourse();
 
     return (

@@ -1,12 +1,13 @@
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import DragHandleOutlinedIcon from '@mui/icons-material/DragHandleOutlined';
-import { FormControlLabel, TextField } from '@mui/material';
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities"
+'use client'
 import { CustomTooltip } from '@/components/mui-custom/custom.tooltip';
 import { useCreateCourse } from '@/wrapper/create-course/create.course.wrapper';
-import { ChangeEvent } from 'react';
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import DragHandleOutlinedIcon from '@mui/icons-material/DragHandleOutlined';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
+import { FormControlLabel, TextField } from '@mui/material';
+import { ChangeEvent } from 'react';
 
 const CreateCourseQuestionElement = ({ question, index }: { question: IQuestion, index: number }) => {
     const { setQuestions, state } = useCreateCourse();

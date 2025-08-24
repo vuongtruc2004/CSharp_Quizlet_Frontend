@@ -4,12 +4,12 @@ import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
 import CreateCourseHeader from "./create.course.header";
 import CreateCourseQuestions from "./create.course.questions";
 
-const CreateCourse = ({ course }: { course: CourseResponse }) => {
+const CreateCourse = () => {
     const { formAction } = useCreateCourse();
 
     return (
         <form action={formAction} className="h-full relative">
-            <CreateCourseHeader course={course} />
+            <CreateCourseHeader />
             <CreateCourseQuestions />
             <ScrollToTopButton />
         </form>

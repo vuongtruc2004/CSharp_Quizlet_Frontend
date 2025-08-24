@@ -7,7 +7,7 @@ interface ErrorResponse {
 interface ApiResponse<T> {
     statusCode: number;
     devMessage: string;
-    userMessage: string;
+    userMessage?: string;
     data: T;
 }
 
@@ -22,6 +22,5 @@ interface BaseResponse<TKey> {
 interface CourseResponse extends BaseResponse<number> {
     title: string;
     description: string;
-    courseStatus: string;
     fullname: string;
 }

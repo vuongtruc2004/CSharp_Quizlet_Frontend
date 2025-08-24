@@ -1,5 +1,5 @@
 'use client';
-import { validateCreateCourse } from "@/features/create-course/services/create.course.validate";
+import { createCourse } from "@/features/create-course/services/actions";
 import { createContext, Dispatch, SetStateAction, useActionState, useContext, useState } from "react";
 
 interface ICreateCourseWrapperProps {
@@ -20,8 +20,8 @@ export const CreateCourseWrapper = ({ children }: { children: React.ReactNode })
         { id: 5, terminology: "", define: "" }
     ]);
 
-    const validateCreateCoursePlus = validateCreateCourse.bind(null, questions);
-    const [state, formAction] = useActionState(validateCreateCoursePlus, null);
+    const createCoursePlus = createCourse.bind(null, questions);
+    const [state, formAction] = useActionState(createCoursePlus, null);
 
     return (
         <CreateCourseContext.Provider value={{ questions, setQuestions, state, formAction }}>

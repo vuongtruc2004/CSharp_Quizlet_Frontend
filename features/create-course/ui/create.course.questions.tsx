@@ -1,14 +1,14 @@
 'use client'
-import { Fragment } from "react"
-import CreateCourseQuestionElement from "./create.course.question.element";
-import AddIcon from '@mui/icons-material/Add';
-import { Box, Button } from "@mui/material";
 import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
-import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
+import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
 import { closestCorners, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
-import { useCreateCourse } from "@/wrapper/create-course/create.course.wrapper";
+import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import AddIcon from '@mui/icons-material/Add';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
+import { Box, Button } from "@mui/material";
+import { Fragment } from "react";
+import CreateCourseQuestionElement from "./create.course.question.element";
 
 const CreateCourseQuestions = () => {
     const { questions, setQuestions, state } = useCreateCourse();
@@ -39,10 +39,10 @@ const CreateCourseQuestions = () => {
 
     return (
         <>
-            {state?.isHaveAtLeast1ValidQuestion === false && (
+            {state?.hasAtLeast1ValidQuestion === false && (
                 <p className="flex items-center gap-x-1 text-custom-error mb-3 text-sm">
                     <ErrorOutlineRoundedIcon sx={{ fontSize: '16px' }} />
-                    {state?.isHaveAtLeast1ValidQuestion ? "" : "Học phần phải chứa ít nhất 1 thuật ngữ"}
+                    {state?.hasAtLeast1ValidQuestion ? "" : "Học phần phải chứa ít nhất 1 thuật ngữ"}
                 </p>
             )}
 
