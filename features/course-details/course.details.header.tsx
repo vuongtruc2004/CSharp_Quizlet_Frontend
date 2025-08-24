@@ -2,8 +2,10 @@ import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
 import FlashCardIcon from "@/components/quizlet-icon/flash.card.icon";
 import LearnIcon from "@/components/quizlet-icon/learn.icon";
 import ShareIcon from "@/components/quizlet-icon/share.icon";
+import { slugifyText } from "@/utils/helpers";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Link from "next/link";
 
 const CourseDetailsHeader = ({ course }: { course: CourseResponse }) => {
     return (
@@ -35,10 +37,10 @@ const CourseDetailsHeader = ({ course }: { course: CourseResponse }) => {
                     <FlashCardIcon />
                     <p className="font-semibold text-gray-800-gray-200">Thẻ ghi nhớ</p>
                 </div>
-                <div className="cursor-pointer bg-gray-200-gray-700 p-4 rounded-lg flex items-center gap-x-3 transition-all duration-300 border-b-4 border-gray-100-gray-700 hover:border-twilight-500-twilight-300">
+                <Link href={`/learn-course/${slugifyText(course.title + "-" + course.id)}`} className="bg-gray-200-gray-700 p-4 rounded-lg flex items-center gap-x-3 transition-all duration-300 border-b-4 border-gray-100-gray-700 hover:border-twilight-500-twilight-300">
                     <LearnIcon />
                     <p className="font-semibold text-gray-800-gray-200">Học</p>
-                </div>
+                </Link>
             </div>
         </>
     )

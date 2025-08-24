@@ -1,3 +1,4 @@
+'use client'
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";

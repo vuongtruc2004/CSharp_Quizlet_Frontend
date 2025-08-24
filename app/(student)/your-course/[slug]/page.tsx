@@ -1,3 +1,5 @@
+import ScrollToTopButton from "@/components/scroll-button/scroll.to.top.button";
+import Cards from "@/features/course-details/cards";
 import CourseDetailsHeader from "@/features/course-details/course.details.header";
 import FlashCards from "@/features/course-details/flash.cards";
 import { Metadata } from "next";
@@ -17,10 +19,13 @@ const CourseDetailsPage = async ({ params }: { params: Promise<{ slug: string }>
     const id = slug.split("-").pop() || "";
     const response = await getCourseById(id);
 
+    console.log(">> ceck res: ", response);
     return (
-        <div className="max-w-[1200px] mx-auto">
+        <div className="max-w-[1000px] mx-auto relative">
             <CourseDetailsHeader course={response.data} />
             <FlashCards cards={response.data.cards} />
+            <Cards course={response.data} />
+            <ScrollToTopButton />
         </div>
     )
 }
