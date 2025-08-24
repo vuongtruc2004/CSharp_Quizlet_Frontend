@@ -1,25 +1,31 @@
+'use client';
 import BookCard from './book.card';
 
-const books = [
-    {
-        title: 'Dekiru Nihongo (Đỏ)',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequ...',
-        chapters: Array.from({ length: 15 }, (_, i) => i + 1),
-        image: '/images/dekiru.jpg',
-    },
-    {
-        title: 'Minna No Nihongo I',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequ...',
-        chapters: Array.from({ length: 25 }, (_, i) => i + 1),
-        image: '/images/minna.jpg',
-    },
-];
+export type BookItem = {
+    id: string;
+    slug: string;
+    title: string;
+    description: string;
+    chapters: number[];
+    image: string;
+};
 
-const BookList = () => {
+type Props = {
+    items: BookItem[];
+    onEdit: (id: string) => void;
+    onDelete: (id: string) => void;
+};
+
+const BookList = ({ items, onEdit, onDelete }: Props) => {
     return (
         <div className="flex flex-col gap-6 mt-6">
-            {books.map((book) => (
-                <BookCard key={book.title} {...book} />
+            {items.map((book) => (
+                <BookCard
+                    key={book.id}
+                    {...book}
+                    onEdit={() => onEdit(book.id)}
+                    onDelete={() => onDelete(book.id)}
+                />
             ))}
         </div>
     );
