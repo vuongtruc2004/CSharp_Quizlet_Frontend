@@ -1,21 +1,22 @@
 interface ICourse {
     id: number,
     title: string,
-    terms: number,
-    author: string
+    description: string,
+    authorName: string
 }
 
 interface IBook {
     id: number,
-    title: string,
-    author: string,
-    edition: number,
-    image: string
+    japaneseTitle: string,
+    vietnameseTitle: string,
+    description: string,
+    authorName: string,
+    thumbnail: string
 }
 
 interface IAuthor {
     id: number,
-    name: string,
-    course: number,
+    fullName: string,
+    // NumberOfCreatedCourses: number,
     avatar: string
 }

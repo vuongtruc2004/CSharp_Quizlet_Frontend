@@ -10,7 +10,7 @@ const HomeCourseElement = ({ course }: { course: ICourse }) => {
 
             <div>
                 <p className='font-semibold'>{course.title}</p>
-                <p>Học phần ・ {course.terms} terms ・ Tác giả: {course.author}</p>
+                <p>Học phần ・ ? terms ・ Tác giả: {course.authorName}</p>
             </div>
         </Link>
     )
