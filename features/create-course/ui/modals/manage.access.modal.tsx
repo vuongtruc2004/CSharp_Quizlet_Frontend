@@ -1,5 +1,6 @@
 import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import CloseIcon from '@mui/icons-material/Close';
 import LockOutlineIcon from '@mui/icons-material/LockOutline';
 import { Backdrop, Button, Divider, FormControl, FormHelperText, MenuItem, Modal, Select } from '@mui/material';
 import { useState } from 'react';
@@ -26,6 +27,15 @@ const ManageAccessModal = () => {
 
             <Modal open={open} onClose={handleClose} closeAfterTransition slots={{ backdrop: Backdrop }} slotProps={{ backdrop: { timeout: 500, } }}>
                 <div className='w-2/3 bg-gray-100-twilight-900 rounded-lg mx-auto mt-5 relative'>
+                    <CustomTooltip title="Hủy" placement="left">
+                        <span
+                            onClick={handleClose}
+                            className="absolute top-5 right-5 hover:bg-gray-300-gray-800 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200"
+                        >
+                            <CloseIcon sx={{ fontSize: '1.75rem' }} />
+                        </span>
+                    </CustomTooltip>
+
                     <div className='px-8 pt-8 pb-5'>
                         <h1 className='font-bold text-3xl text-gray-800-gray-200 mb-4'>Quản lý quyền truy cập</h1>
                         <div className='grid grid-cols-2 items-start gap-x-5'>

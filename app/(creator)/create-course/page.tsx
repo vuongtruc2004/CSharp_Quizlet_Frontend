@@ -1,4 +1,4 @@
-import CreateCourse from "@/features/create-course/ui/create.course";
+import CreateCourse from "@/features/create-course/ui/main/create.course";
 import { CreateCourseWrapper } from "@/wrapper/create-course/create.course.wrapper";
 import { Metadata } from "next";
 
