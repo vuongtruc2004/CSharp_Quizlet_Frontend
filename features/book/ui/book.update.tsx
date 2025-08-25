@@ -7,7 +7,7 @@ export default function BookUpdate({
 }: {
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
-	book?: { id: string; title: string; description: string; totalChapters: number; image?: string };
+	book?: { id: number; title: string; description: string; totalChapters: number; image?: string };
 	onSubmit: (p: { title: string; description: string; totalChapters: number; image?: string }) => void;
 }) {
 	const [f, setF] = useState({ title: "", description: "", totalChapters: 1, image: "" });
