@@ -3,7 +3,7 @@ import queryString from "query-string";
 interface IProps {
     url: string;
     method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-    body?: { [key: string]: any };
+    body?: { [key: string]: any } | FormData | string;
     queryParams?: any;
     useCredentials?: boolean;
     headers?: any;
