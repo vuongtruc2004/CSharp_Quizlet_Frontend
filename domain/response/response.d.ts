@@ -24,3 +24,15 @@ interface CourseResponse extends BaseResponse<number> {
     description: string;
     fullname: string;
 }
+
+interface UserResponse {
+    id: string;
+    email: string;
+    fullName: string;
+    avatar: string;
+}
+
+interface TokenResponse {
+    accessToken: string;
+    refreshToken: string;
+}

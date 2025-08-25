@@ -10,3 +10,8 @@ interface CardRequest<TCardKey> {
     terminology: string;
     define: string;
 }
+
+interface LoginUserRequest {
+    email: string;
+    password: string;
+}
