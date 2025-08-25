@@ -1,3 +1,4 @@
+
 interface ErrorResponse {
     isError: boolean;
     errorMessage?: string;
@@ -9,6 +10,14 @@ interface ApiResponse<T> {
     devMessage: string;
     userMessage?: string;
     data: T;
+}
+
+interface PageDetailsResponse<T> {
+    pageNumber: number;
+    pageSize: number;
+    totalElements: number;
+    totalPages: number;
+    content: T;
 }
 
 interface BaseResponse<TKey> {
@@ -24,22 +33,6 @@ interface CourseResponse extends BaseResponse<number> {
     description: string;
     fullname: string;
 }
-interface VocabularyResponse extends BaseResponse<number> {
-    kanji?: string;
-    japanese: string;
-    vietnamese: string;
-    sinoVietnamese?: string;
-    isMarked: boolean;
-    vocabularyType: string;
-    note?: string;
-    lessonNumber: number;
-    lessonId: number;
-}
-
-interface LessonResponse extends BaseResponse<number> {
-    lessonNumber: number;
-    chapterId: number;
-}
 
 interface BookResponse extends BaseResponse<number> {
     japaneseTitle: string;
@@ -47,3 +40,58 @@ interface BookResponse extends BaseResponse<number> {
     thumbnail: string;
     description: string;
 }
+
+interface UserResponse {
+    id: string;
+    email: string;
+    fullName: string;
+    avatar: string;
+}
+
+interface TokenResponse {
+    accessToken: string;
+    refreshToken: string;
+    cards: CardResponse[];
+}
+
+interface CardResponse extends BaseResponse<number> {
+    terminology: string;
+    define: string;
+}
+
+interface AnswerResponse extends BaseResponse<number> {
+    content: string;
+    isCorrect: boolean;
+}
+
+interface QuestionResponse extends BaseResponse<number> {
+    title: string;
+    questionStatus: string;
+    answers: AnswerResponse[];
+}
+
+interface QuizResponse extends BaseResponse<number> {
+    totalCompletedQuestions: number;
+    currentQuestionIndex: number;
+    questions: QuestionResponse[];
+    courseId: number;
+    courseTitle: string;
+}
+
+ interface VocabularyResponse extends BaseResponse<number> {
+        kanji?: string;
+        japanese: string;
+        vietnamese: string;
+        sinoVietnamese?: string;
+        isMarked: boolean;
+        vocabularyType: string;
+        note?: string;
+        lessonNumber: number;
+        lessonId: number;
+}
+
+interface LessonResponse extends BaseResponse<number>{
+        lessonNumber: number; 
+        chapterId: number; 
+}
+

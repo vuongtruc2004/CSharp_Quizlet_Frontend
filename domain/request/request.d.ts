@@ -10,6 +10,12 @@ interface CardRequest<TCardKey> {
     terminology: string;
     define: string;
 }
+
+interface LoginUserRequest {
+    email: string;
+    password: string;
+}
+
 interface VocabularyRequest<TVocabularyKey> {
         id?: TVocabularyKey;
         japanese: string;
@@ -21,3 +27,4 @@ interface VocabularyRequest<TVocabularyKey> {
         isMarked: boolean;
         lessonId?: number | null;
     }
+
