@@ -1,11 +1,11 @@
 interface IQuestion {
-    id: number,
+    id: string,
     terminology: string,
     define: string
 }
 
 interface SingleQuestionValidateResponse {
-    id: number;
+    id: string;
     terminology: ErrorResponse;
     define: ErrorResponse;
 }
@@ -15,8 +15,10 @@ interface CreateCourseValidateResponse {
     description: string;
     questions: SingleQuestionValidateResponse[];
     hasAtLeast1ValidQuestion: boolean;
+    response?: ApiResponse<CourseResponse>
 }
 
 interface ImportValidateResponse {
+    isValid: boolean;
     data: ErrorResponse;
 }

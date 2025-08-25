@@ -1,11 +1,10 @@
 'use client';
+import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { Button, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import { SORT_OPTIONS, SortOptions, SortOrders } from "../services/course.constants";
-import { CustomTooltip } from "@/components/mui-custom/custom.tooltip";
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const CourseSort = () => {
     const [sortOption, setSortOption] = useState<SortOptions>('createdDate');
@@ -19,7 +18,7 @@ const CourseSort = () => {
         <div className="flex items-center gap-x-3">
             <CustomTooltip title={`${sortOrder === 'asc' ? 'Giảm dần' : 'Tăng dần'}`} arrow placement="bottom">
                 <Button onClick={handleChangeSortOrder} variant="contained" color="primary" size="small" sx={{ borderRadius: '50%', width: '40px', height: '40px', minWidth: '40px' }}>
-                    {sortOrder === 'asc' ? <KeyboardArrowUpIcon sx={{ fontSize: '1.2rem' }} /> : <KeyboardArrowDownIcon sx={{ fontSize: '1.2rem' }} />}
+                    <SwapVertIcon sx={{ fontSize: '1.2rem' }} />
                 </Button>
             </CustomTooltip>
 
