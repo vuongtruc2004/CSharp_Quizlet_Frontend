@@ -1,3 +1,4 @@
+
 interface ErrorResponse {
     isError: boolean;
     errorMessage?: string;
@@ -37,4 +38,23 @@ interface CourseResponse extends BaseResponse<number> {
 interface CardResponse extends BaseResponse<number> {
     terminology: string;
     define: string;
+}
+
+interface AnswerResponse extends BaseResponse<number> {
+    content: string;
+    isCorrect: boolean;
+}
+
+interface QuestionResponse extends BaseResponse<number> {
+    title: string;
+    questionStatus: string;
+    answers: AnswerResponse[];
+}
+
+interface QuizResponse extends BaseResponse<number> {
+    totalCompletedQuestions: number;
+    currentQuestionIndex: number;
+    questions: QuestionResponse[];
+    courseId: number;
+    courseTitle: string;
 }

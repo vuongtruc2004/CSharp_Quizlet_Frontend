@@ -31,12 +31,12 @@ const FlashCards = ({ cards }: { cards: CardResponse[] }) => {
         center: {
             x: 0,
             opacity: 1,
-            transition: { duration: 0.25 },
+            transition: { duration: 0.2 },
         },
         exit: (dir: number) => ({
             x: dir > 0 ? -300 : 300,
             opacity: 0,
-            transition: { duration: 0.25 },
+            transition: { duration: 0.2 },
         }),
     };
 
