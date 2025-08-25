@@ -13,7 +13,7 @@ const SingleKanjiPage = ({
   dataKanji,
   index,
 }: {
-  dataKanji?: { kanji: string; meaning: string; reading: string };
+  dataKanji?: VocabularyResponse;
   index: any;
 }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -32,7 +32,7 @@ const SingleKanjiPage = ({
           }}
           onClick={() => {
             setOpenModal(true);
-            setFullData(dataKanji ?? null);
+            // setFullData(dataKanji ?? null);
           }}
         >
           <CardActionArea>
@@ -41,7 +41,7 @@ const SingleKanjiPage = ({
                 {dataKanji?.kanji}
               </Typography>
               <Typography align="center" variant="body2">
-                {dataKanji?.meaning}
+                {dataKanji?.sinoVietnamese}
               </Typography>
             </CardContent>
           </CardActionArea>

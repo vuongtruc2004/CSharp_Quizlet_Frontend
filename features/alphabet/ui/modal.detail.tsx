@@ -5,7 +5,7 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { speakText } from "../services/make.sound";
 import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 
-const ModalDetail = <T extends string[] | KanjiItem>({
+const ModalDetail = <T extends string[] | VocabularyResponse>({
   openModal,
   setOpenModal,
   data,
@@ -82,16 +82,16 @@ const ModalDetail = <T extends string[] | KanjiItem>({
               }}
             >
               <span className="text-lg">
-                {Array.isArray(data) ? data[1] : data.meaning}
+                {Array.isArray(data) ? data[1] : data.vietnamese}
               </span>
               <span className="text-2lg font-bold">
-                {Array.isArray(data) ? null : data.reading}
+                {Array.isArray(data) ? null : data.japanese}
               </span>
             </Typography>
 
             <Typography
               onClick={() =>
-                speakText(Array.isArray(data) ? data[0] : data.reading)
+                speakText(Array.isArray(data) ? data[0] : data.japanese)
               }
               sx={{
                 fontSize: "30px",

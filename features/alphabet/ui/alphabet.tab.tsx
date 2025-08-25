@@ -31,7 +31,11 @@ function CustomTabPanel(props: TabPanelProps) {
   );
 }
 
-export default function AlphabetTab() {
+export default function AlphabetTab({
+  kanjies,
+}: {
+  kanjies: VocabularyResponse[];
+}) {
   const [value, setValue] = useState(0);
   const [voicedMap, setVoicedMap] = useState<Map<string, string> | null>();
   const [notVoicedMap, setNotVoicedMap] = useState<Map<
@@ -96,7 +100,7 @@ export default function AlphabetTab() {
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={2}>
-        <KanjiPage kanjiData={kanjiData} />{" "}
+        <KanjiPage kanjies={kanjies} />
       </CustomTabPanel>
     </div>
   );

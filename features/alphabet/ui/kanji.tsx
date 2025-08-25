@@ -1,12 +1,7 @@
 import { Box, Grid, Pagination } from "@mui/material";
 import React from "react";
 import SingleKanjiPage from "./single.kanji";
-
-const KanjiPage = ({
-  kanjiData,
-}: {
-  kanjiData?: { kanji: string; meaning: string; reading: string }[];
-}) => {
+const KanjiPage = ({ kanjies }: { kanjies: VocabularyResponse[] }) => {
   return (
     <>
       <Grid
@@ -17,7 +12,7 @@ const KanjiPage = ({
           paddingTop: "40px",
         }}
       >
-        {kanjiData?.map((item, index) => (
+        {kanjies?.map((item, index) => (
           <SingleKanjiPage key={index} dataKanji={item} index={index} />
         ))}
       </Grid>
