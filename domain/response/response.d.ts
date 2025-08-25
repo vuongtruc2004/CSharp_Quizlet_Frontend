@@ -34,6 +34,13 @@ interface CourseResponse extends BaseResponse<number> {
     fullname: string;
 }
 
+interface BookResponse extends BaseResponse<number> {
+    japaneseTitle: string;
+    vietnameseTitle: string;
+    thumbnail: string;
+    description: string;
+}
+
 interface UserResponse {
     id: string;
     email: string;

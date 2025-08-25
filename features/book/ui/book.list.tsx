@@ -2,7 +2,7 @@
 import BookCard from './book.card';
 
 export type BookItem = {
-    id: string;
+    id: number;
     title: string;
     description: string;
     chapters: number[];

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BookSearch from "./book.search";
 import BookList, { BookItem } from "./book.list";
 import BookCreate from "./book.create";
@@ -16,23 +16,23 @@ const normalize = (s: string) =>
     s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
 
 const initial: BookItem[] = [
-    {
-        id: uid(),
-        title: "Dekiru Nihongo (Đỏ)",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequatur vitae culpa earum qui iure laboriosam ea facere, odit pariatur!",
-        chapters: Array.from({ length: 15 }, (_, i) => i + 1),
-        image: "https://www.tieng-nhat.com/wp-content/uploads/2022/10/dekiri-nihongo-so-cap.jpg",
-    },
-    {
-        id: uid(),
-        title: "Minna No Nihongo I",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequatur vitae culpa earum qui iure laboriosam ea facere, odit pariatur!",
-        chapters: Array.from({ length: 25 }, (_, i) => i + 1),
-        image: "https://s2.studylib.net/store/data/026088106_1-12b76a2a71bc84f53909fcf8ae97dbca-768x994.png",
-    },
+    // {
+    //     id: uid(),
+    //     title: "Dekiru Nihongo (Đỏ)",
+    //     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequatur vitae culpa earum qui iure laboriosam ea facere, odit pariatur!",
+    //     chapters: Array.from({ length: 15 }, (_, i) => i + 1),
+    //     image: "https://www.tieng-nhat.com/wp-content/uploads/2022/10/dekiri-nihongo-so-cap.jpg",
+    // },
+    // {
+    //     id: uid(),
+    //     title: "Minna No Nihongo I",
+    //     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse consequatur vitae culpa earum qui iure laboriosam ea facere, odit pariatur!",
+    //     chapters: Array.from({ length: 25 }, (_, i) => i + 1),
+    //     image: "https://s2.studylib.net/store/data/026088106_1-12b76a2a71bc84f53909fcf8ae97dbca-768x994.png",
+    // },
 ];
 
-export default function BooksClient() {
+export default function BooksClient({ bookList }: { bookList: BookResponse[] }) {
     const [books, setBooks] = useState<BookItem[]>(initial);
     const [q, setQ] = useState("");
 
@@ -43,6 +43,13 @@ export default function BooksClient() {
             (b) => normalize(b.title).includes(nq) || normalize(b.description).includes(nq)
         );
     }, [books, q]);
+    const toBookItem = (b: BookResponse): BookItem => ({
+        id: b.id ?? uid(),
+        title: b.japaneseTitle,
+        description: b.description ?? "", // fix: luôn là string
+        chapters: [1, 2, 3],
+        image: "/images/default-cover.jpg",
+    });
 
     // detail / edit states
     const [detailOpen, setDetailOpen] = useState(false);
@@ -80,6 +87,19 @@ export default function BooksClient() {
     };
 
     const deleteBook = (b: BookItem) => setBooks((prev) => prev.filter((x) => x.id !== b.id));
+    useEffect(() => {
+        if (!bookList?.length) return;
+
+        const mapped: BookItem[] = bookList.map((b: BookResponse) => ({
+            id: b.id ?? uid(),
+            title: b.japaneseTitle,
+            description: b.description ?? "", // always string
+            chapters: [1, 2, 3], // number[]
+            image: b.thumbnail ?? "/images/default-cover.jpg",
+        }));
+
+        setBooks(mapped);
+    }, [bookList]);
 
     return (
         <div className="pl-4.5">
@@ -98,7 +118,7 @@ export default function BooksClient() {
                 onDelete={deleteBook}
             />
 
-            <BookCreate openCreate={createOpen} setOpenCreate={setCreateOpen} onSubmit={createBook} />
+            {/* <BookCreate openCreate={createOpen} setOpenCreate={setCreateOpen} onSubmit={createBook} /> */}
 
             <BookUpdate
                 open={updateOpen}
